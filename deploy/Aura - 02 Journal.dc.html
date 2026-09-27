@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/styles.css">
+<script src="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/_ds_bundle.js"></script>
+<link rel="stylesheet" href="aura-theme.css">
+<script src="aura-store.js"></script>
+<style>
+  body { margin: 0; background: var(--a-ground-outside); }
+  a { color: var(--a-action); }
+  a:hover { color: var(--a-action-pressed); }
+  @keyframes auraDrift { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-8px,-11px,0) scale(1.025); } }
+  @keyframes auraDrift2 { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(9px,8px,0) scale(0.98); } }
+  @keyframes auraListen { 0%,100% { transform: scale(1); opacity: .5; } 50% { transform: scale(1.9); opacity: 0; } }
+  @keyframes auraRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  textarea::placeholder { color: var(--a-ink-support); }
+  textarea:focus-visible { outline: none; }
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#f3ebdd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#f3ebdd"></rect><g stroke="#5d7890" stroke-width="1.4" opacity="0.5" stroke-linecap="round"><path d="M32 40h36"></path><path d="M32 50h36"></path><path d="M32 60h22"></path></g><circle cx="62" cy="60" r="2.6" fill="#5d7890"></circle><text x="50" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#23211f" letter-spacing="1.6">aura</text></svg></template>
+
+<div class="aura-stage" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px 0;background:var(--a-ground-outside)">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ deviceW }}" height="{{ deviceH }}" keyboard="{{ keyboardUp }}" hint-size="390px,844px">
+
+  <div data-a-screen="express" style="position:relative;height:100%;overflow:hidden;background:var(--a-ground)">
+
+    <!-- the room: same forms as screen 1, drawn closer and quieter -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:{{ ambientOpacity }};transition:opacity 1.4s ease">
+      <div style="position:absolute;left:-52%;top:-46%;width:184%;aspect-ratio:1.1;border-radius:50%;background:radial-gradient(closest-side, color-mix(in srgb, var(--a-ambient-blue) 34%, transparent), transparent 74%);animation:auraDrift 32s ease-in-out infinite"></div>
+      <div style="position:absolute;left:-30%;top:-24%;width:140%;aspect-ratio:1.03;border-radius:50%;border:1px solid color-mix(in srgb, var(--a-ambient-blue) 16%, transparent);animation:auraDrift2 40s ease-in-out infinite"></div>
+      <div style="position:absolute;right:-46%;bottom:-34%;width:118%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side, color-mix(in srgb, var(--a-ambient-clay) 17%, transparent), transparent 74%);animation:auraDrift2 36s ease-in-out infinite"></div>
+    </div>
+
+    <!-- paper grain, a touch more present in the room -->
+    <div style="position:absolute;inset:0;pointer-events:none;opacity:.55;mix-blend-mode:var(--a-grain-blend);background-image:var(--a-grain)"></div>
+
+    <!-- ── WRITING / EXPRESS ────────────────────────────────── -->
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;padding:54px var(--a-space-lg) var(--a-pad-bottom);opacity:{{ writingOpacity }};pointer-events:{{ writingEvents }};transition:opacity .9s ease">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:34px">
+        <button class="btn btn-ghost" onClick="{{ onLeave }}" style="white-space:nowrap;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x) var(--a-pad-control-y) 10px;margin-left:-10px;font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">{{ backLabel }}</button>
+        <span style="font-size:var(--a-type-body);font-weight:var(--a-weight-body);line-height:var(--a-lh-body);color:var(--a-ink-quiet);opacity:{{ privacyOpacity }};transition:opacity .8s ease">Only you</span>
+      </div>
+
+      <div style="max-height:{{ inviteHeight }};overflow:hidden;transition:max-height .8s cubic-bezier(.22,.8,.28,1)">
+        <div style="min-height:0;overflow:hidden">
+          <p style="margin:var(--a-space-md) 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-statement);line-height:var(--a-lh-statement);letter-spacing:var(--a-tr-statement);color:var(--a-ink);opacity:{{ inviteOpacity }};transition:opacity .7s ease">You can start anywhere.</p>
+        </div>
+      </div>
+
+      <!-- the page -->
+      <div style="flex:1;display:flex;flex-direction:column;margin-top:var(--a-space-md);min-height:0">
+        <textarea rows="3" placeholder="{{ placeholder }}" value="{{ text }}" onChange="{{ onType }}" onFocus="{{ onFocus }}" onBlur="{{ onBlur }}" style="flex:1;width:100%;border:0;outline:none;resize:none;background:transparent;padding:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-leading-journal);color:var(--a-ink);caret-color:var(--a-caret)"></textarea>
+
+        <!-- the one gentle prompt: its own surface, above the writing, in every state -->
+        <div style="position:sticky;bottom:0;max-height:{{ promptHeight }};visibility:{{ promptVis }};overflow:hidden;transition:max-height .8s cubic-bezier(.22,.8,.28,1)">
+          <div style="min-height:0;overflow:hidden">
+            <div style="margin:6px 0 2px;padding:16px 18px 14px;border-radius:var(--radius-md);background:var(--a-surface-voice);opacity:{{ promptOpacity }};transition:opacity .8s ease">
+              <p style="margin:0;font-family:var(--font-heading);font-weight:300;font-style:italic;font-size:17.5px;line-height:1.45;color:var(--a-surface-voice-ink);text-wrap:pretty">{{ promptText }}</p>
+              <div style="display:{{ promptActions }};gap:8px;margin-top:12px">
+                <button class="btn btn-ghost" onClick="{{ onTakePrompt }}" style="white-space:nowrap;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);color:var(--a-surface-voice-ink);min-height:var(--a-target)">Answer it</button>
+                <button class="btn btn-ghost" onClick="{{ onSkipPrompt }}" style="white-space:nowrap;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">Skip</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- foot: voice on-ramp + save when there is something to keep -->
+      <div style="display:flex;align-items:center;gap:12px;padding-top:16px">
+        <button class="btn" onClick="{{ onVoice }}" style="white-space:nowrap;display:flex;align-items:center;gap:9px;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-secondary-x);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);background:transparent;border:1px solid var(--a-action-edge);color:var(--a-surface-voice-ink);min-height:var(--a-target)" style-hover="background:var(--a-action-wash)">
+          <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--a-action)"></span>Speak instead
+        </button>
+        <div style="flex:1"></div>
+        <button class="btn" onClick="{{ onDone }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-primary-x);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);letter-spacing:var(--a-tr-action);background:var(--a-action);color:var(--a-action-ink);box-shadow:var(--shadow-sm);min-height:var(--a-target);opacity:{{ doneOpacity }};pointer-events:{{ doneEvents }};transform:translateY({{ doneShift }});transition:opacity var(--a-move-element) var(--a-ease-fade), transform var(--a-move-element) var(--a-ease-move)" style-hover="background:var(--a-action-pressed)">Done</button>
+      </div>
+    </div>
+
+    <!-- ── VOICE ─────────────────────────────────────────────── -->
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:0 42px 60px;text-align:center;background:color-mix(in srgb, var(--a-ground) 88%, transparent);opacity:{{ voiceOpacity }};visibility:{{ voiceVis }};pointer-events:{{ voiceEvents }};transition:opacity var(--a-move-section) var(--a-ease-fade), visibility var(--a-move-section)">
+      <div style="position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center">
+        <span style="position:absolute;inset:0;border-radius:50%;background:color-mix(in srgb, var(--a-ambient-blue) 34%, transparent);animation:auraListen 2.6s ease-out infinite"></span>
+        <span style="position:absolute;inset:0;border-radius:50%;background:color-mix(in srgb, var(--a-ambient-blue) 34%, transparent);animation:auraListen 2.6s ease-out infinite 1.3s"></span>
+        <span style="position:relative;width:16px;height:16px;border-radius:50%;background:var(--a-action)"></span>
+      </div>
+      <p style="margin:28px 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-lh-said);color:var(--a-ink-said);text-wrap:pretty">{{ voiceLine }}</p>
+      <p style="margin:var(--a-space-xs) 0 0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support);max-width:250px;text-wrap:pretty">You can fix the words afterwards.</p>
+      <div style="display:flex;flex-direction:column;gap:var(--a-space-2xs);margin-top:34px;width:100%;max-width:230px">
+        <button class="btn" onClick="{{ onStopVoice }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-primary-x);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);letter-spacing:var(--a-tr-action);background:var(--a-action);color:var(--a-action-ink);box-shadow:var(--shadow-sm);min-height:var(--a-target)" style-hover="background:var(--a-action-pressed)">Done speaking</button>
+        <button class="btn btn-ghost" onClick="{{ onCancelVoice }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">Cancel</button>
+      </div>
+    </div>
+
+    <!-- ── BEFORE SAVE ───────────────────────────────────────── -->
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;padding:54px var(--a-space-lg) var(--a-pad-bottom);background:var(--a-ground);opacity:{{ reviewOpacity }};visibility:{{ reviewVis }};pointer-events:{{ reviewEvents }};transition:opacity var(--a-move-section) var(--a-ease-fade), visibility var(--a-move-section)">
+      <div style="position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:var(--a-grain-blend);background-image:var(--a-grain)"></div>
+
+      <div style="position:relative;display:flex;flex-direction:column;height:100%;min-height:0">
+        <button class="btn btn-ghost" onClick="{{ onBackToWriting }}" style="white-space:nowrap;align-self:flex-start;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x) var(--a-pad-control-y) 10px;margin-left:-10px;font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">← Keep writing</button>
+
+        <p style="margin:var(--a-space-md) 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-statement);line-height:var(--a-lh-statement);letter-spacing:var(--a-tr-statement);color:var(--a-ink)">Before you put it away.</p>
+
+        <div style="flex:1;overflow:auto;min-height:0;margin-top:var(--a-space-md);display:flex;flex-direction:column;gap:var(--a-space-md)">
+          <div>
+            <p style="margin:0 0 var(--a-space-xs);font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">What you wrote</p>
+            <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-leading-journal);color:var(--a-ink-said);white-space:pre-wrap;text-wrap:pretty">{{ text }}</p>
+          </div>
+          <div style="padding:18px 18px 16px;border-radius:var(--radius-md);background:var(--a-surface-voice-quiet)">
+            <p style="margin:0 0 8px;font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-surface-voice-ink)">In short</p>
+            <p style="margin:0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-surface-voice-ink);text-wrap:pretty">{{ summary }}</p>
+            <p style="margin:12px 0 0;font-size:12.5px;line-height:1.55;color:color-mix(in srgb, var(--a-surface-voice-ink) 78%, transparent)">So it’s easier to find later. Nothing more.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:var(--a-space-2xs);padding-top:16px">
+          <button class="btn" onClick="{{ onSave }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-primary-x);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);letter-spacing:var(--a-tr-action);background:var(--a-action);color:var(--a-action-ink);box-shadow:var(--shadow-sm);min-height:var(--a-target)" style-hover="background:var(--a-action-pressed)">Keep this</button>
+          <button class="btn btn-ghost" onClick="{{ onBackToWriting }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">Edit it</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── KEPT ──────────────────────────────────────────────── -->
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--a-space-md);padding:0 46px;text-align:center;background:color-mix(in srgb, var(--a-ground) 94%, transparent);opacity:{{ keptOpacity }};visibility:{{ keptVis }};pointer-events:{{ keptEvents }};transition:opacity var(--a-move-screen) var(--a-ease-fade), visibility var(--a-move-screen)">
+      <span style="width:9px;height:9px;border-radius:50%;background:var(--a-action)"></span>
+      <p style="margin:0;font-family:var(--font-heading);font-weight:300;font-style:italic;font-size:var(--a-type-said);line-height:var(--a-lh-said);color:var(--a-ink-said);text-wrap:pretty">Put away. It stays exactly as you left it.</p>
+      <button class="btn btn-ghost" onClick="{{ onSeeKept }}" style="display:{{ seeKeptDisplay }};border-radius:0;padding:var(--a-pad-control-y) 0;min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);background:transparent;border:0;color:var(--a-surface-voice-ink)"><span style="display:inline-block;padding-bottom:3px;border-bottom:1px solid var(--a-underline-threshold)">See where it went</span></button>
+      <button class="btn btn-ghost" onClick="{{ onReset }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">Start again</button>
+    </div>
+
+  </div>
+</x-import>
+<p style="margin:0;font:400 12px/1.5 Figtree,system-ui,sans-serif;color:rgba(35,33,31,.68)">Voice and the summary are simulated — screen 2 only.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:470,&quot;height&quot;:980},&quot;placeholder&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Whatever’s on your mind. It doesn’t have to make sense.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Copy&quot;},&quot;prompt&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;What happened that made this stay with you?&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Copy&quot;},&quot;ambientForms&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Surface&quot;}}">
+const DICTATED = "I got the internship today. I should be happy and I think I am, but the whole afternoon I kept waiting for someone to tell me it was a mistake. I didn't tell anyone yet.";
+
+class Component extends DCLogic {
+  state = { view: 'write', text: '', focused: false, keptId: null, promptOffered: false, promptTaken: false, promptDismissed: false, voice: 'listening' };
+
+  componentWillUnmount() { clearTimeout(this.pt); clearTimeout(this.vt); }
+
+  // one prompt, offered once, only after the person has actually said something
+  maybeOfferPrompt(text) {
+    const s = this.state;
+    if (s.promptOffered || s.promptDismissed || s.promptTaken) return;
+    if (text.trim().split(/\s+/).length < 14) return;
+    clearTimeout(this.pt);
+    this.pt = setTimeout(() => this.setState({ promptOffered: true }), 2600);
+  }
+
+  setText(text) {
+    this.setState({ text });
+    this.maybeOfferPrompt(text);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const hasText = s.text.trim().length > 0;
+    const writing = s.view === 'write';
+    // the question keeps its own surface while it is being answered — it never joins the entry
+    const promptUp = writing && s.promptOffered && !s.promptDismissed;
+
+    return {
+      deviceW: 390,
+      deviceH: 844,
+      text: s.text,
+      keyboardUp: writing && s.focused,
+      placeholder: this.props.placeholder ?? 'Whatever’s on your mind. It doesn’t have to make sense.',
+
+      ambientOpacity: (this.props.ambientForms ?? true) ? (hasText ? 0.45 : 1) : 0,
+      writingOpacity: writing ? 1 : 0,
+      writingEvents: writing ? 'auto' : 'none',
+      privacyOpacity: hasText ? 0 : 1,
+      inviteOpacity: hasText ? 0 : 1,
+      inviteHeight: hasText ? '0px' : 'none',
+
+      promptHeight: promptUp ? 'none' : '0px',
+      promptVis: promptUp ? 'visible' : 'hidden',
+      promptOpacity: s.promptTaken ? 0.62 : 1,
+      promptActions: s.promptTaken ? 'none' : 'flex',
+      promptText: this.props.prompt ?? 'What happened that made this stay with you?',
+
+      doneOpacity: hasText ? 1 : 0,
+      doneEvents: hasText ? 'auto' : 'none',
+      doneShift: hasText ? '0px' : '8px',
+
+      voiceOpacity: s.view === 'voice' ? 1 : 0,
+      voiceVis: s.view === 'voice' ? 'visible' : 'hidden',
+      voiceEvents: s.view === 'voice' ? 'auto' : 'none',
+      voiceLine: s.voice === 'transcribing' ? 'Writing it down…' : 'Say it however it comes out.',
+
+      reviewOpacity: s.view === 'review' ? 1 : 0,
+      reviewVis: s.view === 'review' ? 'visible' : 'hidden',
+      reviewEvents: s.view === 'review' ? 'auto' : 'none',
+      summary: this.summarise(s.text),
+
+      keptOpacity: s.view === 'kept' ? 1 : 0,
+      keptVis: s.view === 'kept' ? 'visible' : 'hidden',
+      keptEvents: s.view === 'kept' ? 'auto' : 'none',
+
+      onType: (e) => this.setText(e.target.value),
+      onFocus: () => this.setState({ focused: true }),
+      onBlur: () => this.setState({ focused: false }),
+
+      // answering opens a line in the entry; the question itself stays in its own surface
+      onTakePrompt: () => this.setState((st) => ({
+        promptTaken: true, focused: true,
+        text: st.text.replace(/\s*$/, '') + '\n\n',
+      })),
+      onSkipPrompt: () => this.setState({ promptDismissed: true }),
+
+      onVoice: () => { this.setState({ view: 'voice', voice: 'listening', focused: false }); },
+      onStopVoice: () => {
+        this.wasSpoken = true;
+        this.setState({ voice: 'transcribing' });
+        clearTimeout(this.vt);
+        this.vt = setTimeout(() => {
+          const joined = (this.state.text ? this.state.text.replace(/\s*$/, '') + '\n\n' : '') + DICTATED;
+          this.setState({ view: 'write', focused: true });
+          this.setText(joined);
+        }, 1700);
+      },
+      onCancelVoice: () => this.setState({ view: 'write', voice: 'listening' }),
+
+      onDone: () => this.setState({ view: 'review', focused: false }),
+      onBackToWriting: () => this.setState({ view: 'write', focused: true }),
+      // Keep is the only commit: the entry lands in Record as it was left
+      onSave: () => {
+        const id = window.AuraStore.keepEntry({
+          body: s.text,
+          answer: s.promptTaken ? this.answerOf(s.text) : null,
+          summary: this.summarise(s.text),
+          spoken: this.wasSpoken,
+        });
+        this.setState({ view: 'kept', focused: false, keptId: id });
+      },
+      // only offered when something was actually kept
+      seeKeptDisplay: s.keptId ? 'inline-block' : 'none',
+      onSeeKept: () => {
+        if (this.props.onSeeKept) this.props.onSeeKept(s.keptId);
+        this.setState({ view: 'write', text: '', focused: false, keptId: null, promptOffered: false, promptTaken: false, promptDismissed: false });
+      },
+      onReset: () => { this.wasSpoken = false; return this.setState({ view: 'write', text: '', focused: false, keptId: null, promptOffered: false, promptTaken: false, promptDismissed: false }); },
+      // leaves without keeping; the draft is discarded
+      backLabel: this.props.backLabel ?? '← Later',
+      onLeave: () => {
+        if (this.props.onExit) { this.setState({ view: 'write', text: '', focused: false }); this.props.onExit(); }
+        else this.setState({ view: 'kept' });
+      },
+    };
+  }
+
+  // when the prompt was answered, its reply is the last paragraph written
+  answerOf(text) {
+    const parts = text.trim().split(/\n{2,}/);
+    return parts.length > 1 ? parts[parts.length - 1].trim() : null;
+  }
+
+  // stand-in for the real summary: neutral, descriptive, no interpretation
+  summarise(text) {
+    const t = text.trim();
+    if (!t) return '—';
+    if (/internship|job|offer/i.test(t)) return 'The internship came through. Glad about it, and braced for it to be taken back. Hasn’t told anyone yet.';
+    const first = t.split(/(?<=[.!?])\s+/).slice(0, 2).join(' ');
+    return first.length > 190 ? first.slice(0, 187) + '…' : first;
+  }
+}
+</script>
+</body>
+</html>

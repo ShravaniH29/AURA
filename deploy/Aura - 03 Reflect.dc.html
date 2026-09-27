@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/styles.css">
+<script src="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/_ds_bundle.js"></script>
+<link rel="stylesheet" href="aura-theme.css">
+<script src="aura-store.js"></script>
+<style>
+  body { margin: 0; background: var(--a-ground-outside); }
+  a { color: var(--a-action); }
+  a:hover { color: var(--a-action-pressed); }
+  @keyframes auraDrift { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-8px,-11px,0) scale(1.025); } }
+  @keyframes auraDrift2 { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(9px,8px,0) scale(0.98); } }
+  @keyframes auraSettle { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .aura-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+  .aura-scroll::-webkit-scrollbar { display: none; }
+  .aura-mark { animation: auraSettle var(--a-move-screen) var(--a-ease-move) both; }
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#f3ebdd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#f3ebdd"></rect><path d="M22 52 C38 48 46 56 58 52 C70 48 78 53 84 51" fill="none" stroke="#5d7890" stroke-opacity="0.32" stroke-width="1" stroke-linecap="round"></path><circle cx="28" cy="51" r="2.4" fill="#465d72"></circle><circle cx="42" cy="51" r="2.4" fill="none" stroke="#23211f" stroke-opacity="0.3" stroke-width="1"></circle><circle cx="56" cy="51" r="2.4" fill="#465d72"></circle><circle cx="70" cy="51" r="2.4" fill="#465d72"></circle><circle cx="82" cy="51" r="2.4" fill="none" stroke="#23211f" stroke-opacity="0.3" stroke-width="1"></circle><text x="50" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#23211f" letter-spacing="1.6">aura</text></svg></template>
+
+<div class="aura-stage" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px 0;background:var(--a-ground-outside)">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ deviceW }}" height="{{ deviceH }}" hint-size="390px,844px">
+
+  <div data-a-screen="weekly" style="position:relative;height:100%;overflow:hidden;background:var(--a-ground)">
+
+    <!-- the window: forms sit further out and lower than in the room -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:{{ ambientOn }}">
+      <div style="position:absolute;left:-52%;top:-16%;width:150%;height:34%;background:radial-gradient(56% 60% at 46% 52%, color-mix(in srgb, var(--a-ambient-blue) var(--a-wash-soft), transparent) 0%, color-mix(in srgb, var(--a-ambient-blue) var(--a-wash-far), transparent) 44%, transparent 78%);animation:auraDrift 34s ease-in-out infinite"></div>
+      <div style="position:absolute;right:-40%;bottom:-30%;width:112%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side, color-mix(in srgb, var(--a-ambient-clay) 15%, transparent), transparent 74%);animation:auraDrift2 38s ease-in-out infinite"></div>
+    </div>
+
+    <div style="position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:var(--a-grain-blend);background-image:var(--a-grain)"></div>
+
+    <div style="position:relative;height:100%;display:flex;flex-direction:column">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:54px var(--a-space-lg) 0">
+        <button class="btn btn-ghost" onClick="{{ onBack }}" style="white-space:nowrap;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x) var(--a-pad-control-y) 10px;margin-left:-10px;font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">{{ backLabel }}</button>
+        <span style="font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">This week</span>
+      </div>
+
+      <div class="aura-scroll" style="flex:1;overflow-y:auto;min-height:0;padding:0 var(--a-space-lg) var(--a-pad-bottom)">
+
+        <h1 style="margin:var(--a-space-md) 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-opening);line-height:var(--a-lh-opening);letter-spacing:var(--a-tr-opening);color:var(--a-ink);text-wrap:pretty">How have you been lately?</h1>
+
+        <!-- ── THE WEEK YOU CAME HERE ───────────────────────── -->
+        <div style="margin-top:var(--a-space-xl)">
+          <div class="aura-mark" style="position:relative">
+            <!-- the thread the week was left on: one continuous trace, no axis, no height to read -->
+            <svg viewBox="0 0 700 44" preserveAspectRatio="none" style="position:absolute;left:0;right:0;top:0;width:100%;height:44px;pointer-events:none">
+              <path d="M6,23 C60,20.4 96,25.6 150,22.4 C206,19.2 244,25.2 300,22 C356,18.8 396,24.4 450,21.6 C506,18.8 542,24 600,21.2 C650,18.8 674,22.4 694,21.6" fill="none" stroke="var(--a-action)" stroke-opacity="0.26" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+            </svg>
+            <div style="position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:0">
+              <sc-for list="{{ days }}" as="day" hint-placeholder-count="7">
+                <button onClick="{{ day.onTap }}" style="display:flex;flex-direction:column;align-items:center;gap:15px;border:0;background:transparent;padding:0 0 14px;cursor:pointer;font:inherit">
+                  <span style="display:flex;align-items:center;justify-content:center;width:44px;height:44px">
+                    <span style="width:{{ day.markSize }};height:{{ day.markSize }};border-radius:50%;background:{{ day.markFill }};border:{{ day.markBorder }};box-shadow:{{ day.markHalo }};transition:background var(--a-move-element) var(--a-ease-fade), box-shadow var(--a-move-element) var(--a-ease-fade)"></span>
+                  </span>
+                  <span style="padding-bottom:4px;border-bottom:{{ day.markRule }};font-size:var(--a-type-label);font-weight:{{ day.weight }};color:{{ day.ink }};transition:color var(--a-move-touch) var(--a-ease-fade)">{{ day.short }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- what that day actually held, in the person's own words -->
+          <div style="max-height:{{ dayHeight }};visibility:{{ dayVis }};overflow:hidden;transition:max-height var(--a-move-section) var(--a-ease-move)">
+            <div style="min-height:0;overflow:hidden">
+              <div class="aura-mark" style="padding:16px 0 2px">
+                <p style="margin:0 0 var(--a-space-2xs);font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">{{ dayLabel }}</p>
+                <p style="margin:0;font-family:var(--font-heading);font-weight:300;font-style:italic;font-size:var(--a-type-said);line-height:var(--a-lh-said);color:var(--a-ink-said);text-wrap:pretty">{{ dayWords }}</p>
+                <button class="btn btn-ghost" onClick="{{ onOpenEntry }}" style="display:{{ entryLinkDisplay }};border-radius:0;padding:var(--a-pad-control-y) 0 0;min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);background:transparent;border:0;color:var(--a-surface-voice-ink)"><span style="display:inline-block;padding-bottom:3px;border-bottom:1px solid var(--a-underline-threshold)">Read the whole entry</span></button>
+              </div>
+            </div>
+          </div>
+          <p style="margin:var(--a-space-sm) 0 0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support);opacity:{{ hintOn }};transition:opacity var(--a-move-element) var(--a-ease-fade)">Tap a day to see what you put down.</p>
+        </div>
+
+        <!-- ── NOTICE ───────────────────────────────────────── -->
+        <div style="margin-top:var(--a-space-xl);padding-top:var(--a-space-lg);border-top:1px solid var(--a-rule)">
+          <p style="margin:0 0 12px;font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">A little thing you might notice</p>
+          <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-statement);line-height:var(--a-lh-statement);letter-spacing:var(--a-tr-statement);color:var(--a-ink);text-wrap:pretty">You came back to the same thought a few times — something about not being sure you’ve earned it.</p>
+
+          <div style="max-height:{{ noticeHeight }};visibility:{{ noticeVis }};overflow:hidden;transition:max-height var(--a-move-section) var(--a-ease-move)">
+            <div style="min-height:0;overflow:hidden">
+              <div style="display:flex;flex-direction:column;gap:var(--a-space-sm);padding:20px 0 4px">
+                <div style="display:flex;gap:12px">
+                  <span style="flex:none;width:34px;padding-top:3px;font-size:var(--a-type-label);font-weight:var(--a-weight-label);color:var(--a-ink-quiet)">Wed</span>
+                  <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-style:italic;font-size:17px;line-height:var(--a-lh-said);color:var(--a-ink-said);text-wrap:pretty">“kept waiting for someone to tell me it was a mistake”</p>
+                </div>
+                <div style="display:flex;gap:12px">
+                  <span style="flex:none;width:34px;padding-top:3px;font-size:var(--a-type-label);font-weight:var(--a-weight-label);color:var(--a-ink-quiet)">Sat</span>
+                  <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-style:italic;font-size:17px;line-height:var(--a-lh-said);color:var(--a-ink-said);text-wrap:pretty">“good day, but I still haven’t told anyone”</p>
+                </div>
+                <p style="margin:0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support);text-wrap:pretty">Your words, not ours. Make of it whatever you want.</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-ghost" onClick="{{ onToggleNotice }}" style="white-space:nowrap;border-radius:0;padding:var(--a-pad-control-y) 0;margin:var(--a-space-sm) 0 0;font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);color:var(--a-surface-voice-ink);border-bottom:1px solid var(--a-underline-threshold);align-self:flex-start;min-height:var(--a-target)">{{ noticeToggle }}</button>
+        </div>
+
+        <!-- ── AFFIRMATION ──────────────────────────────────── -->
+        <p style="margin:var(--a-space-xl) 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-style:italic;font-size:var(--a-type-said);line-height:var(--a-lh-said);color:var(--a-ink-said);text-wrap:pretty">You don’t have to understand everything today.</p>
+
+        <!-- ── MAYBE TODAY ──────────────────────────────────── -->
+        <div style="display:{{ offerDisplay }};margin-top:var(--a-space-xl);padding:var(--a-space-md) var(--a-space-md) 20px;border-radius:var(--radius-lg);background:var(--a-surface-offer)">
+          <p style="margin:0 0 var(--a-space-xs);font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-surface-offer-ink)">If you feel like it</p>
+          <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-lh-said);color:var(--a-surface-offer-ink);text-wrap:pretty">{{ offerText }}</p>
+          <p style="margin:12px 0 0;font-size:13px;line-height:1.6;color:color-mix(in srgb, var(--a-surface-offer-ink) 80%, transparent);text-wrap:pretty">You said this is something you like. That’s the only reason it’s here.</p>
+          <button class="btn btn-ghost" onClick="{{ onSource }}" style="border-radius:0;padding:var(--a-pad-control-y) 0 0;min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);background:transparent;border:0;color:var(--a-surface-offer-ink)"><span style="display:inline-block;padding-bottom:3px;border-bottom:1px solid color-mix(in srgb, var(--a-surface-offer-ink) 34%, transparent)">Change what I let you use</span></button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</x-import>
+<p style="margin:0;font:400 12px/1.5 Figtree,system-ui,sans-serif;color:rgba(35,33,31,.68)">Sample week — screen 3 only.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:470,&quot;height&quot;:980},&quot;ambientForms&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Surface&quot;}}">
+// presence, not measurement: a mark means "you came here", nothing about how it went
+const DAYS = [
+  { label: 'Monday', short: 'Mon', words: 'Slept badly. Nothing really wrong, just tired of everything being almost fine.' },
+  { label: 'Tuesday', short: 'Tue', words: null },
+  { label: 'Wednesday', short: 'Wed', words: 'Good feedback today, and I still kept waiting for someone to tell me it was a mistake. Months in and that hasn’t gone.' },
+  { label: 'Thursday', short: 'Thu', entryId: 'e2', words: 'Snapped at someone who didn’t deserve it. Still thinking about it.' },
+  { label: 'Friday', short: 'Fri', words: null },
+  { label: 'Saturday', short: 'Sat', words: 'Good day. Walked for an hour without a reason. Still haven’t told anyone how it’s actually going.' },
+  { label: 'Sunday', short: 'Sun', words: 'Sunday quiet. Half looking forward to tomorrow, half not.' },
+];
+
+class Component extends DCLogic {
+  state = { day: null, noticeOpen: false };
+
+  // the store's script may not have run at first render; attach as soon as it has
+  componentDidMount() { this.attachStore(); }
+  attachStore() {
+    const S = window.AuraStore;
+    if (S) { this.unsub = S.subscribe(() => this.forceUpdate()); this.forceUpdate(); }
+    else this.storeTimer = setTimeout(() => this.attachStore(), 16);
+  }
+  componentWillUnmount() { clearTimeout(this.storeTimer); if (this.unsub) this.unsub(); }
+
+  renderVals() {
+    const S = window.AuraStore;
+    // only something the person allowed for suggestions can appear here
+    const offer = S ? (S.offerable()[0] || null) : null;
+    const sel = this.state.day;
+    const d = sel === null ? null : DAYS[sel];
+
+    const days = DAYS.map((day, i) => {
+      const here = !!day.words;
+      const on = sel === i;
+      return {
+        short: day.short,
+        // present = filled, absent = hollow. Every mark is the same size: nothing to read as magnitude
+        markSize: '10px',
+        markFill: here
+          ? (on ? 'var(--a-action)' : 'color-mix(in srgb, var(--a-action) 58%, transparent)')
+          : 'var(--a-ground)',
+        markBorder: here ? '0' : '1px solid var(--a-mark-absent)',
+        markHalo: on ? '0 0 0 5px var(--a-action-wash)' : 'none',
+        markRule: on ? '1px solid var(--a-underline-selection)' : '1px solid transparent',
+        weight: on ? 600 : 'var(--a-weight-body)',
+        ink: on ? 'var(--a-action-pressed)' : 'var(--a-ink-quiet)',
+        onTap: () => this.setState((s) => ({ day: s.day === i ? null : i })),
+      };
+    });
+
+    return {
+      deviceW: 390,
+      deviceH: 844,
+      ambientOn: (this.props.ambientForms ?? true) ? 1 : 0,
+      days,
+
+      dayHeight: d ? 'none' : '0px',
+      dayVis: d ? 'visible' : 'hidden',
+      dayLabel: d ? d.label : '',
+      dayWords: d ? (d.words || 'You didn’t come here that day. That’s fine too.') : '',
+      hintOn: d ? 0 : 1,
+      // only when this day's words came from an entry still kept in Record
+      entryLinkDisplay: d && d.entryId && S && S.get().entries.some((e) => e.id === d.entryId) ? 'inline-block' : 'none',
+      onOpenEntry: () => { if (d && d.entryId && this.props.onOpenEntry) this.props.onOpenEntry(d.entryId); },
+
+      noticeHeight: this.state.noticeOpen ? 'none' : '0px',
+      noticeVis: this.state.noticeOpen ? 'visible' : 'hidden',
+      noticeToggle: this.state.noticeOpen ? 'Close' : 'Where this came from',
+      onToggleNotice: () => this.setState((s) => ({ noticeOpen: !s.noticeOpen })),
+      offerDisplay: offer ? 'block' : 'none',
+      offerText: offer ? offer.offer : '',
+      onSource: () => { if (this.props.onSource) this.props.onSource(); },
+
+      // clears what's open; leaves the screen only when nothing is
+      backLabel: this.props.backLabel ?? '← Aura',
+      onBack: () => {
+        if (this.state.day === null && !this.state.noticeOpen && this.props.onExit) this.props.onExit();
+        else this.setState({ day: null, noticeOpen: false });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

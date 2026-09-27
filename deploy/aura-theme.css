@@ -1,0 +1,318 @@
+/* Aura theme layer — sits on top of the Organic design system.
+   Organic stays the infrastructure (ground, ramps, spacing, components);
+   Aura overrides the voice: editorial serif display, muted blue as the
+   primary accent, terracotta demoted to a secondary, calmer rounding. */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Figtree:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Ground — Organic's warm cream, a touch softer and less saturated */
+  --color-bg: #f3ebdd;
+  --color-surface: #ece2d0;
+  --color-text: #23211f;
+
+  /* AURA ACCENT — muted blue, on Organic's shared lightness scale */
+  --color-blue-100: #eef2f6;
+  --color-blue-200: #dce5ee;
+  --color-blue-300: #c2d2e0;
+  --color-blue-400: #9db3c6;
+  --color-blue-500: #7a93a9;
+  --color-blue-600: #5d7890;
+  --color-blue-700: #465d72;
+  --color-blue-800: #324453;
+  --color-blue-900: #202d38;
+
+  /* Primary accent is now the muted blue */
+  --color-accent: #5d7890;
+  --color-accent-100: var(--color-blue-100);
+  --color-accent-200: var(--color-blue-200);
+  --color-accent-300: var(--color-blue-300);
+  --color-accent-400: var(--color-blue-400);
+  --color-accent-500: var(--color-blue-500);
+  --color-accent-600: var(--color-blue-700);
+  --color-accent-700: var(--color-blue-700);
+  --color-accent-800: var(--color-blue-800);
+  --color-accent-900: var(--color-blue-900);
+
+  /* Terracotta kept as a secondary voice, not a dominant colour */
+  --color-clay-200: #ffe1d0;
+  --color-clay-500: #c67139;
+  --color-clay-700: #8c491a;
+
+  /* Type — editorial serif for the emotional voice, Figtree for UI */
+  --font-heading: "Newsreader", Georgia, serif;
+  --font-heading-weight: 300;
+  --font-body: "Figtree", system-ui, sans-serif;
+
+  /* Rounding, restrained: soft, not bubbly */
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  /* Elevation — quieter than Organic's */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2e2b25 8%, transparent);
+  --shadow-md: 0 4px 18px color-mix(in srgb, #2e2b25 9%, transparent);
+  --shadow-lg: 0 18px 48px color-mix(in srgb, #2e2b25 12%, transparent);
+}
+
+h1, h2, h3, h4 { letter-spacing: -0.01em; line-height: 1.14; }
+.btn { font-family: var(--font-body); font-weight: 500; letter-spacing: 0.01em; }
+::selection { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+
+
+/* ─────────────────────────────────────────────────────────────
+   AURA VISUAL SYSTEM V1 — semantic layer
+   Additive only. Every value above is untouched; these name the
+   decisions the six screens already make.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Ground */
+  --a-ground: var(--color-bg);              /* the page */
+  --a-ground-outside: #e7ded1;              /* outside the device */
+
+  /* Ink — one near-black at four strengths */
+  --a-ink: var(--color-text);                                              /* statements Aura makes */
+  --a-ink-said: color-mix(in srgb, var(--color-text) 85%, transparent);    /* the person's own words */
+  --a-ink-support: color-mix(in srgb, var(--color-text) 74%, transparent); /* supporting copy */
+  --a-ink-quiet: color-mix(in srgb, var(--color-text) 68%, transparent);   /* labels, secondary actions — the floor */
+
+  /* Interaction */
+  --a-action: var(--color-blue-700);
+  --a-action-pressed: var(--color-blue-800);
+  --a-action-ink: #fbf6ec;
+  --a-action-edge: color-mix(in srgb, var(--color-blue-500) 38%, transparent);
+  --a-action-wash: color-mix(in srgb, var(--color-blue-200) 55%, transparent);
+  --a-caret: var(--color-blue-700);
+
+  /* Surfaces — the only two enclosed surfaces in the product */
+  /* Aura speaking. Blue-200 against the WARM cream cancels to grey below ~85%,
+     so this stays high; the recessed variant is a translucent wash instead. */
+  --a-surface-voice: color-mix(in srgb, var(--color-blue-200) 92%, var(--color-bg));
+  --a-surface-voice-quiet: color-mix(in srgb, var(--color-blue-300) 52%, transparent);
+  --a-surface-voice-ink: var(--color-blue-900);
+  --a-surface-offer: color-mix(in srgb, var(--color-accent-2-200) 44%, transparent);   /* an offer to decline */
+  --a-surface-offer-ink: var(--color-accent-2-900);
+
+  /* Paper — a warm raised surface. Not a card: the only sanctioned uses are the
+     search field (V1's one bordered input) and the hover wash on a list row.
+     Deliberately warmer than the ground, so it reads as paper rather than tint. */
+  --a-surface-paper: color-mix(in srgb, #fffaf1 62%, transparent);
+  --a-surface-paper-wash: color-mix(in srgb, #fffaf1 34%, transparent);
+
+  /* Atmosphere — never a UI element */
+  --a-ambient-blue: var(--color-blue-400);
+  --a-ambient-sage: var(--color-accent-2-500);
+  --a-ambient-clay: var(--color-clay-500);
+
+  /* Lines */
+  --a-rule: color-mix(in srgb, var(--color-text) 10%, transparent);
+  --a-mark-absent: color-mix(in srgb, var(--color-text) 26%, transparent);
+
+  /* Space — 7 steps, resolving the hand-set values */
+  --a-space-2xs: 6px;
+  --a-space-xs: 10px;
+  --a-space-sm: 14px;   /* within a group */
+  --a-space-md: 22px;   /* between related groups */
+  --a-space-lg: 30px;   /* page margin */
+  --a-space-xl: 44px;   /* between sections */
+  --a-space-2xl: 64px;  /* between chapters of a page */
+  --a-pad-top: 54px;
+  --a-pad-bottom: 54px;
+  --a-measure: 290px;   /* max text measure */
+
+  /* Type — 7 steps */
+  --a-type-display: 47px;
+  --a-type-opening: 32px;
+  --a-type-statement: 24px;
+  --a-type-said: 20px;
+  --a-type-body: 15px;
+  --a-type-action: 13.5px;
+  --a-type-label: 12px;
+  --a-leading-journal: 33px;
+
+  /* Motion — five tiers plus ambient */
+  --a-move-touch: 300ms;
+  --a-move-element: 600ms;
+  --a-move-section: 900ms;
+  --a-move-screen: 1400ms;
+  --a-hold: 1600ms;
+  --a-ease-move: cubic-bezier(.22,.8,.28,1);
+  --a-ease-fade: ease;
+
+  /* Target */
+  --a-target: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --a-move-touch: 1ms; --a-move-element: 1ms;
+    --a-move-section: 1ms; --a-move-screen: 1ms; --a-hold: 1ms;
+  }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   V1 FOUNDATION — shared behaviour
+   Screens consume these as var(--a-*) inline. No component classes:
+   Aura's screens paint from the first streamed character, and
+   class-based rules would delay that. Tokens centralise the values;
+   the screens keep their own composition.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Type tiers — line-height and tracking travel with the size */
+  --a-lh-display: 1.08;    --a-tr-display: -0.018em;
+  --a-lh-opening: 1.18;    --a-tr-opening: -0.016em;
+  --a-lh-statement: 1.32;  --a-tr-statement: -0.012em;
+  --a-lh-said: 1.48;
+  --a-lh-body: 1.65;
+  --a-lh-action: 1.2;      --a-tr-action: 0.005em;
+  --a-tr-label: 0.11em;
+
+  /* Weights — the serif never exceeds 300 */
+  --a-weight-said: 300;
+  --a-weight-body: 400;
+  --a-weight-action: 500;
+  --a-weight-label: 500;
+
+  /* Material — one grain, tuned per screen via --a-grain-opacity */
+  --a-grain: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAnIGhlaWdodD0nMTQwJz48ZmlsdGVyIGlkPSdnJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC44NScgbnVtT2N0YXZlcz0nMycvPjxmZUNvbG9yTWF0cml4IHR5cGU9J3NhdHVyYXRlJyB2YWx1ZXM9JzAnLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0nMTQwJyBoZWlnaHQ9JzE0MCcgZmlsdGVyPSd1cmwoI2cpJyBvcGFjaXR5PScwLjMnLz48L3N2Zz4=");
+  --a-grain-opacity: 0.5;        /* band: .45–.55; screen 5 may go lower as depth increases */
+  --a-grain-blend: multiply;
+
+  /* Depth — the four permitted mechanics */
+  --a-depth-inset: 14px;         /* per layer, non-scaling, stops after four */
+  --a-recede-ambient: 0.45;      /* ambient opacity once the person is writing */
+  --a-wash-soft: 13%;            /* ambient wash strength, near */
+  --a-wash-far: 6%;              /* ambient wash strength, far */
+
+  /* Controls */
+  --a-pad-control-y: 13px;       /* every tier — resolves the 8/11/12/14/17 drift */
+  --a-pad-primary-x: 22px;
+  --a-pad-secondary-x: 20px;
+  --a-pad-ghost-x: 14px;
+  --a-disabled: 0.4;
+
+  /* Marks */
+  --a-underline-threshold: color-mix(in srgb, var(--color-blue-500) 42%, transparent);
+  --a-underline-selection: color-mix(in srgb, var(--color-blue-700) 55%, transparent);
+
+  /* Column */
+  --a-column-max: 420px;
+}
+
+/* Focus — themed, never the browser default */
+:focus-visible {
+  outline: 2px solid var(--a-action);
+  outline-offset: 2px;
+}
+textarea:focus-visible { outline: none; }   /* writing on the page, not into a field */
+
+/* Selection */
+::selection { background: color-mix(in srgb, var(--a-action) 20%, transparent); }
+
+/* ── Responsive: the tokens move, the compositions don't ──────── */
+
+/* Below 360px — margin gives before breathing room does */
+@media (max-width: 359px) {
+  :root {
+    --a-space-lg: 22px;
+    --a-type-display: var(--a-type-opening);
+  }
+}
+
+/* Shorter viewports — compress chapter gaps, then sections, then top pad.
+   Bottom safe area and touch targets never compress.
+
+   Scoped to a container, NOT the browser viewport: Aura's screens live inside
+   a fixed 390x844 device frame, so viewport height says nothing about the space
+   the composition actually has. The frame's own height is what may be short.
+   Apply [data-a-screen] to a screen shell to opt into this. */
+/* The device frame sets an inline system font stack on its own shell, which
+   all descendants inherit — so Figtree-role text (which sets only size and
+   weight and relies on inheritance) silently rendered in the OS font. This
+   re-establishes the interface voice as the inheritance root inside the frame. */
+[data-a-screen] {
+  container-type: size;
+  container-name: a-screen;
+  font-family: var(--font-body);
+}
+
+/* Declared on descendants, not on the shell: a container query can only style
+   elements INSIDE its container, never the container itself. */
+@container a-screen (max-height: 720px) {
+  [data-a-screen] > * { --a-space-2xl: 44px; }
+}
+@container a-screen (max-height: 640px) {
+  [data-a-screen] > * { --a-space-2xl: 40px; --a-space-xl: 30px; }
+}
+
+/* Top padding is never compressed automatically — on every screen it is the
+   clearance below the status bar, and losing it collides with the notch row. */
+
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE VIEWPORT — the device frame is a desktop presentation
+   device. On a real phone it renders a phone inside a phone, so
+   below 560px the frame stops being a frame and the browser
+   viewport becomes Aura's viewport. Nothing inside the screens
+   changes: same type, spacing, hierarchy, copy and behaviour.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  /* the stage stops centring a fixed canvas and simply is the page */
+  .aura-stage {
+    min-height: 100dvh;
+    padding: 0 !important;
+    gap: 0 !important;
+    display: block !important;
+    background: var(--a-ground) !important;
+  }
+  /* the stage's trailing caption line (sample-content note) is desktop chrome */
+  .aura-stage > p { display: none !important; }
+
+  /* the frame itself: full bleed, no bezel, no shadow, no rounding */
+  [data-om-starter="ios-frame"] {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 100dvh;
+    /* the frame sets overflow:hidden inline; on a phone it must not clip,
+       because the page itself is now the scroller */
+    overflow: visible !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: var(--a-ground) !important;
+  }
+  /* child order in ios-frame.jsx is fixed and unconditional:
+     1 dynamic island · 2 simulated status bar · 3 content · 4 home indicator.
+     The real device supplies 1, 2 and 4, so they are removed. */
+  [data-om-starter="ios-frame"] > div:nth-child(1),
+  [data-om-starter="ios-frame"] > div:nth-child(2),
+  [data-om-starter="ios-frame"] > div:nth-child(4) { display: none !important; }
+
+  /* content column fills the viewport and scrolls with the page */
+  [data-om-starter="ios-frame"] > div:nth-child(3) {
+    height: auto !important;
+    min-height: 100dvh;
+  }
+  [data-om-starter="ios-frame"] > div:nth-child(3) > div {
+    overflow: visible !important;
+  }
+
+  /* each screen's own root: was sized to the frame, now to the viewport.
+     Its 54px top pad replaced the status bar; the real one needs the inset. */
+  [data-a-screen] {
+    height: auto !important;
+    min-height: 100dvh;
+    overflow: visible !important;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  [data-a-screen] > div {
+    height: auto !important;
+    min-height: 100dvh;
+  }
+}

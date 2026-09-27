@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/styles.css">
+<script src="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/_ds_bundle.js"></script>
+<link rel="stylesheet" href="aura-theme.css">
+<script src="aura-store.js"></script>
+<style>
+  body { margin: 0; background: var(--a-ground-outside); }
+  a { color: var(--a-action); }
+  a:hover { color: var(--a-action-pressed); }
+  @keyframes auraDrift { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-7px,-10px,0) scale(1.02); } }
+  @keyframes auraDrift2 { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(8px,7px,0) scale(0.985); } }
+  .aura-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+  .aura-scroll::-webkit-scrollbar { display: none; }
+  input::placeholder { color: var(--a-ink-support); }
+  textarea::placeholder { color: var(--a-ink-support); }
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#f3ebdd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#f3ebdd"></rect><g stroke="#23211f" stroke-opacity="0.14" stroke-width="1"><path d="M24 38h52"></path><path d="M24 54h52"></path></g><g stroke="#5d7890" stroke-width="1.4" opacity="0.55" stroke-linecap="round"><path d="M24 31h28"></path><path d="M24 47h34"></path><path d="M24 63h22"></path></g><text x="50" y="82" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#23211f" letter-spacing="1.6">aura</text></svg></template>
+
+<div class="aura-stage" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px 0;background:var(--a-ground-outside)">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ deviceW }}" height="{{ deviceH }}" hint-size="390px,844px">
+
+  <div data-a-screen="record" style="position:relative;height:100%;overflow:hidden;background:var(--a-ground)">
+
+    <!-- the shelf: forms settled to the very edges, almost put away themselves -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:{{ ambientOn }}">
+      <div style="position:absolute;left:-58%;top:-14%;width:150%;aspect-ratio:1.1;border-radius:50%;background:radial-gradient(closest-side, color-mix(in srgb, var(--a-ambient-blue) 26%, transparent), transparent 74%);animation:auraDrift 36s ease-in-out infinite"></div>
+      <div style="position:absolute;right:-52%;bottom:-24%;width:126%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side, color-mix(in srgb, var(--a-ambient-clay) 13%, transparent), transparent 74%);animation:auraDrift2 40s ease-in-out infinite"></div>
+    </div>
+
+    <div style="position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:var(--a-grain-blend);background-image:var(--a-grain)"></div>
+
+    <!-- ── THE COLLECTION ───────────────────────────────────── -->
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;opacity:{{ listOpacity }};pointer-events:{{ listEvents }};transition:opacity var(--a-move-element) var(--a-ease-fade)">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:54px var(--a-space-lg) 0">
+        <button class="btn btn-ghost" onClick="{{ onHome }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x) var(--a-pad-control-y) 10px;margin-left:-10px;font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">{{ backLabel }}</button>
+        <button class="btn btn-ghost" onClick="{{ onToggleSearch }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);margin-right:calc(-1 * var(--a-pad-ghost-x));font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">{{ searchToggle }}</button>
+      </div>
+
+      <div class="aura-scroll" style="flex:1;overflow-y:auto;min-height:0;padding:0 var(--a-space-lg) var(--a-pad-bottom)">
+
+        <h1 style="margin:var(--a-space-md) 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-opening);line-height:var(--a-lh-opening);letter-spacing:var(--a-tr-opening);color:var(--a-ink);text-wrap:pretty">Things you’ve left here.</h1>
+        <p style="margin:12px 0 0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support)">{{ subline }}</p>
+
+        <div style="max-height:{{ searchHeight }};overflow:hidden;transition:max-height var(--a-move-element) var(--a-ease-move)">
+          <div style="padding:var(--a-space-md) 0 4px">
+            <input class="input" value="{{ query }}" onChange="{{ onQuery }}" placeholder="Search your words" style="width:100%;min-height:var(--a-target);border-radius:999px;padding:var(--a-pad-control-y) 18px;font-family:var(--font-body);font-size:var(--a-type-body);line-height:var(--a-lh-body);background:var(--a-surface-paper);border:1px solid var(--a-rule);color:var(--a-ink)">
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;margin-top:var(--a-space-lg)">
+          <sc-for list="{{ entries }}" as="e" hint-placeholder-count="3">
+            <button class="btn btn-ghost" onClick="{{ e.open }}" style="display:block;width:100%;text-align:left;border-radius:var(--radius-md);padding:var(--a-space-md) 0;margin:0;border-top:1px solid var(--a-rule);white-space:normal" style-hover="background:var(--a-surface-paper-wash)">
+              <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
+                <span style="font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">{{ e.date }}</span>
+                <span style="font-size:var(--a-type-label);font-weight:var(--a-weight-body);color:var(--a-ink-quiet)">{{ e.meta }}</span>
+              </div>
+              <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-lh-said);letter-spacing:-.008em;color:var(--a-ink-said);text-wrap:pretty">{{ e.pull }}</p>
+              <p style="margin:var(--a-space-xs) 0 0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support);text-wrap:pretty">{{ e.tail }}</p>
+            </button>
+          </sc-for>
+        </div>
+
+        <p style="margin:var(--a-space-xl) 0 0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support);opacity:{{ emptyOn }}">{{ emptyLine }}</p>
+      </div>
+    </div>
+
+    <!-- ── ONE ENTRY, KEPT ──────────────────────────────────── -->
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;background:var(--a-ground);opacity:{{ detailOpacity }};pointer-events:{{ detailEvents }};transition:opacity var(--a-move-element) var(--a-ease-fade)">
+      <div style="position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:var(--a-grain-blend);background-image:var(--a-grain)"></div>
+
+      <div style="position:relative;display:flex;flex-direction:column;height:100%;min-height:0">
+        <div style="padding:54px var(--a-space-lg) 0">
+          <button class="btn btn-ghost" onClick="{{ onCloseEntry }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x) var(--a-pad-control-y) 10px;margin-left:-10px;font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">← Everything else</button>
+        </div>
+
+        <div class="aura-scroll" style="flex:1;overflow-y:auto;min-height:0;padding:0 var(--a-space-lg) var(--a-pad-bottom)">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-top:var(--a-space-md)">
+            <span style="font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">{{ dDate }}</span>
+            <span style="font-size:var(--a-type-label);font-weight:var(--a-weight-body);color:var(--a-ink-quiet)">{{ dMeta }}</span>
+          </div>
+
+          <p style="margin:var(--a-space-md) 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-leading-journal);color:var(--a-ink-said);white-space:pre-wrap;text-wrap:pretty">{{ dBody }}</p>
+
+          <!-- what the user chose to answer, kept as theirs too -->
+          <div style="max-height:{{ answerHeight }};overflow:hidden">
+            <div style="margin-top:28px;padding-left:16px;border-left:1px solid var(--a-action-edge)">
+              <p style="margin:0 0 8px;font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">You answered</p>
+              <p style="margin:0 0 var(--a-space-xs);font-family:var(--font-heading);font-weight:var(--a-weight-said);font-style:italic;font-size:17px;line-height:var(--a-lh-said);color:var(--a-ink-support)">{{ dQuestion }}</p>
+              <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-leading-journal);color:var(--a-ink-said);white-space:pre-wrap;text-wrap:pretty">{{ dAnswer }}</p>
+            </div>
+          </div>
+
+          <div style="max-height:{{ summaryHeight }};overflow:hidden">
+            <div style="margin-top:28px;padding:18px 18px 16px;border-radius:var(--radius-md);background:var(--a-surface-voice-quiet)">
+              <p style="margin:0 0 8px;font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-surface-voice-ink)">In short</p>
+              <p style="margin:0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-surface-voice-ink);text-wrap:pretty">{{ dSummary }}</p>
+            </div>
+          </div>
+
+          <!-- then / now — never merged into the original -->
+          <div style="margin-top:var(--a-space-xl);padding-top:var(--a-space-md);border-top:1px solid var(--a-rule)">
+            <div style="max-height:{{ nowHeight }};overflow:hidden;transition:max-height var(--a-move-section) var(--a-ease-move)">
+              <div style="padding-bottom:4px">
+                <p style="margin:0 0 var(--a-space-xs);font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-surface-offer-ink)">Now</p>
+                <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-leading-journal);color:var(--a-ink-said);white-space:pre-wrap;text-wrap:pretty">{{ dNow }}</p>
+                <p style="margin:var(--a-space-xs) 0 0;font-size:13px;line-height:1.6;color:var(--a-ink-support)">{{ dNowMeta }}</p>
+              </div>
+            </div>
+
+            <div style="max-height:{{ composeHeight }};overflow:hidden;transition:max-height var(--a-move-section) var(--a-ease-move)">
+              <div style="padding-bottom:4px;display:{{ composeDisplay }}">
+                <p style="margin:0 0 var(--a-space-xs);font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-surface-offer-ink)">Now</p>
+                <textarea rows="3" placeholder="How you see it today. The entry above stays as it is." value="{{ draft }}" onChange="{{ onDraft }}" style="width:100%;border:0;outline:none;resize:none;background:transparent;padding:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-leading-journal);color:var(--a-ink);caret-color:var(--a-caret)"></textarea>
+                <div style="display:flex;gap:8px;margin-top:var(--a-space-xs)">
+                  <button class="btn" onClick="{{ onSaveNow }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-primary-x);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);letter-spacing:var(--a-tr-action);background:var(--a-action);color:var(--a-action-ink);box-shadow:var(--shadow-sm);min-height:var(--a-target);opacity:{{ saveNowOpacity }};pointer-events:{{ saveNowEvents }}" style-hover="background:var(--a-action-pressed)">Add this</button>
+                  <button class="btn btn-ghost" onClick="{{ onCancelNow }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">Cancel</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:{{ threadDisplay }};padding-top:2px">
+              <button class="btn btn-ghost" onClick="{{ onOpenThread }}" style="border-radius:0;padding:var(--a-pad-control-y) 0;min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);background:transparent;border:0;color:var(--a-surface-voice-ink)"><span style="display:inline-block;padding-bottom:3px;border-bottom:1px solid var(--a-underline-threshold)">You came back to this</span></button>
+            </div>
+
+            <div style="display:{{ addNowDisplay }}">
+              <button class="btn btn-ghost" onClick="{{ onAddNow }}" style="border-radius:0;padding:var(--a-pad-control-y) 0;font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);color:var(--a-surface-voice-ink);border-bottom:1px solid var(--a-underline-threshold);min-height:var(--a-target)">Add how you see it now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</x-import>
+<p style="margin:0;font:400 12px/1.5 Figtree,system-ui,sans-serif;color:rgba(35,33,31,.68)">Sample entries — screen 4 only.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:470,&quot;height&quot;:980},&quot;subline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Things you chose to keep.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Copy&quot;},&quot;ambientForms&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Surface&quot;}}">
+
+class Component extends DCLogic {
+  state = { open: null, searchOpen: false, query: '', composing: false, draft: '' };
+
+  // the store's script may not have run at first render; attach as soon as it has
+  componentDidMount() { this.attachStore(); }
+  attachStore() {
+    const S = window.AuraStore;
+    if (S) { this.unsub = S.subscribe(() => this.forceUpdate()); this.forceUpdate(); }
+    else this.storeTimer = setTimeout(() => this.attachStore(), 16);
+  }
+  componentWillUnmount() { clearTimeout(this.storeTimer); if (this.unsub) this.unsub(); }
+
+  // arriving from a thread layer: open that entry rather than the list
+  componentDidUpdate(prev) {
+    const id = this.props.openEntry;
+    if (id && id !== prev.openEntry) this.setState({ open: id, composing: false, draft: '', searchOpen: false, query: '' });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const S = window.AuraStore;
+    const store = S ? S.get() : { entries: [], memories: [], threads: [{ id: 't1', layers: [] }], suggested: [] };
+    const q = s.query.trim().toLowerCase();
+    const matches = store.entries.filter((e) =>
+      !q || (e.body + ' ' + (e.answer || '') + ' ' + e.date).toLowerCase().includes(q));
+
+    const d = s.open ? store.entries.find((e) => e.id === s.open) : null;
+    const now = d ? d.now : null;
+    const nowMeta = d ? d.nowMeta : null;
+
+    return {
+      deviceW: 390,
+      deviceH: 844,
+      ambientOn: (this.props.ambientForms ?? true) ? 1 : 0,
+      subline: this.props.subline ?? 'Things you chose to keep.',
+
+      listOpacity: d ? 0 : 1,
+      listEvents: d ? 'none' : 'auto',
+      searchToggle: s.searchOpen ? 'Close' : 'Find',
+      searchHeight: s.searchOpen ? '80px' : '0px',
+      query: s.query,
+      entries: matches.map((e) => ({ ...e, open: () => this.setState({ open: e.id, composing: false, draft: '' }) })),
+      emptyOn: matches.length ? 0 : 1,
+      emptyLine: q ? 'Nothing here with those words.' : '',
+
+      detailOpacity: d ? 1 : 0,
+      detailEvents: d ? 'auto' : 'none',
+      dDate: d ? d.date : '',
+      dMeta: d ? d.meta : '',
+      dBody: d ? d.body : '',
+      dQuestion: d && d.question ? d.question : '',
+      dAnswer: d && d.answer ? d.answer : '',
+      answerHeight: d && d.answer ? '400px' : '0px',
+      dSummary: d && d.summary ? d.summary : '',
+      summaryHeight: d && d.summary ? '300px' : '0px',
+
+      dNow: now || '',
+      dNowMeta: nowMeta || '',
+      nowHeight: now && !s.composing ? '260px' : '0px',
+      composeHeight: s.composing ? '260px' : '0px',
+      addNowDisplay: !now && !s.composing ? 'block' : 'none',
+      composeDisplay: s.composing ? 'block' : 'none',
+      draft: s.draft,
+      saveNowOpacity: s.draft.trim() ? 1 : 0.45,
+      saveNowEvents: s.draft.trim() ? 'auto' : 'none',
+
+      onToggleSearch: () => this.setState((st) => ({ searchOpen: !st.searchOpen, query: st.searchOpen ? '' : st.query })),
+      onQuery: (e) => this.setState({ query: e.target.value }),
+      onCloseEntry: () => this.setState({ open: null, composing: false, draft: '' }),
+      backLabel: this.props.backLabel ?? '← Aura',
+      // navigation only: closing search is the search toggle's job, and the
+      // detail has its own close, so one tap always leaves Record
+      onHome: () => {
+        if (this.props.onExit) { this.setState({ open: null, searchOpen: false, query: '' }); this.props.onExit(); }
+        else this.setState({ open: null, searchOpen: false, query: '' });
+      },
+      // present only where a thread actually exists for this entry
+      threadDisplay: d && d.threadId && !s.composing ? 'block' : 'none',
+      onOpenThread: () => { if (this.props.onOpenThread) this.props.onOpenThread(d.threadId); },
+
+      onAddNow: () => this.setState({ composing: true }),
+      onCancelNow: () => this.setState({ composing: false, draft: '' }),
+      onSaveNow: () => {
+        window.AuraStore.addNow(this.state.open, this.state.draft);
+        this.setState({ composing: false, draft: '' });
+      },
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+    };
+  }
+}
+</script>
+</body>
+</html>

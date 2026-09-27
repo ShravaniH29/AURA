@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/styles.css">
+<script src="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/_ds_bundle.js"></script>
+<link rel="stylesheet" href="aura-theme.css">
+<script src="aura-store.js"></script>
+<style>
+  body { margin: 0; background: var(--a-ground-outside); }
+  a { color: var(--a-action); }
+  a:hover { color: var(--a-action-pressed); }
+  @keyframes auraDrift { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-7px,-10px,0) scale(1.02); } }
+  @keyframes auraDrift2 { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(8px,7px,0) scale(0.985); } }
+  @keyframes auraListen { 0%,100% { transform: scale(1); opacity: .5; } 50% { transform: scale(1.9); opacity: 0; } }
+  @keyframes auraPlace { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .aura-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+  .aura-scroll::-webkit-scrollbar { display: none; }
+  .aura-place { animation: auraPlace var(--a-move-section) var(--a-ease-move) both; }
+  textarea::placeholder { color: var(--a-ink-support); }
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#f3ebdd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#f3ebdd"></rect><rect x="20" y="26" width="60" height="18" rx="7" fill="#e1eecc" fill-opacity="0.72"></rect><rect x="26" y="50" width="52" height="18" rx="7" fill="#e1eecc" fill-opacity="0.5"></rect><g stroke="#4a5535" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.78"><path d="M64 34l3 3 5.5-6"></path></g><path d="M66 59h8" stroke="#4a5535" stroke-width="1.4" stroke-linecap="round" opacity="0.45"></path><text x="50" y="84" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#23211f" letter-spacing="1.6">aura</text></svg></template>
+
+<div class="aura-stage" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px 0;background:var(--a-ground-outside)">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ deviceW }}" height="{{ deviceH }}" keyboard="{{ keyboardUp }}" hint-size="390px,844px">
+
+  <div data-a-screen="personal" style="position:relative;height:100%;overflow:hidden;background:var(--a-ground)">
+
+    <!-- the drawer: two shallow washes, gently placed, nothing accumulating -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:{{ ambientOn }}">
+      <div style="position:absolute;left:-26%;top:-14%;width:146%;height:48%;background:radial-gradient(56% 60% at 46% 52%, color-mix(in srgb, var(--a-ambient-sage) 16%, transparent) 0%, color-mix(in srgb, var(--a-ambient-sage) 7%, transparent) 44%, transparent 78%);animation:auraDrift 48s ease-in-out infinite"></div>
+      <div style="position:absolute;right:-30%;bottom:-22%;width:132%;height:46%;background:radial-gradient(54% 58% at 56% 48%, color-mix(in srgb, var(--a-ambient-blue) var(--a-wash-soft), transparent) 0%, color-mix(in srgb, var(--a-ambient-blue) var(--a-wash-far), transparent) 44%, transparent 78%);animation:auraDrift2 54s ease-in-out infinite"></div>
+    </div>
+
+    <div style="position:absolute;inset:0;pointer-events:none;opacity:var(--a-grain-opacity);mix-blend-mode:var(--a-grain-blend);background-image:var(--a-grain)"></div>
+
+    <div style="position:relative;height:100%;display:flex;flex-direction:column">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:var(--a-pad-top) var(--a-space-lg) 0">
+        <button class="btn btn-ghost" onClick="{{ onBack }}" style="white-space:nowrap;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x) var(--a-pad-control-y) 10px;margin-left:-10px;min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet)">{{ backLabel }}</button>
+        <span style="font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">What I remember</span>
+      </div>
+
+      <div class="aura-scroll" style="flex:1;overflow-y:auto;min-height:0;padding:0 var(--a-space-lg) var(--a-pad-bottom)">
+
+        <h1 style="margin:26px 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-opening);line-height:var(--a-lh-opening);letter-spacing:var(--a-tr-opening);color:var(--a-ink);text-wrap:pretty">Things you’ve shared with me.</h1>
+        <p style="margin:var(--a-space-sm) 0 0;max-width:var(--a-measure);font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support);text-wrap:pretty">I use these to make suggestions that feel a little more like you. You can change them anytime.</p>
+
+        <!-- the collection: loosely placed, not gridded -->
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:38px">
+
+          <sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
+            <div class="aura-place" style="padding:0 0 4px;margin-left:{{ it.inset }}">
+              <button onClick="{{ it.onOpen }}" style="display:block;width:100%;text-align:left;border:0;background:transparent;padding:16px 0 14px;cursor:pointer;font:inherit">
+                <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:{{ it.size }};line-height:1.42;letter-spacing:-.008em;color:{{ it.ink }};text-wrap:pretty">{{ it.text }}</p>
+                <p style="margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--a-ink-quiet)">{{ it.origin }}</p>
+              </button>
+
+              <!-- opened in place -->
+              <div style="max-height:{{ it.openH }};visibility:{{ it.openV }};overflow:hidden">
+                <div style="min-height:0;overflow:hidden">
+                  <div class="aura-place" style="padding:4px 0 14px">
+                    <div style="display:flex;flex-direction:column;gap:2px;padding:14px 16px;border-radius:var(--radius-md);background:var(--a-surface-offer)">
+                      <button onClick="{{ it.onToggleRemember }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;border:0;background:transparent;padding:var(--a-pad-control-y) 0;min-height:var(--a-target);cursor:pointer;font:inherit">
+                        <span style="font-size:var(--a-type-body);font-weight:var(--a-weight-body);color:var(--a-surface-offer-ink)">Remember this</span>
+                        <span style="font-size:var(--a-type-body);font-weight:600;color:{{ it.rememberInk }}">{{ it.rememberMark }}</span>
+                      </button>
+                      <button onClick="{{ it.onToggleUse }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;border:0;background:transparent;padding:var(--a-pad-control-y) 0;min-height:var(--a-target);cursor:pointer;font:inherit">
+                        <span style="font-size:var(--a-type-body);font-weight:var(--a-weight-body);color:var(--a-surface-offer-ink)">Use for suggestions</span>
+                        <span style="font-size:var(--a-type-body);font-weight:600;color:{{ it.useInk }}">{{ it.useMark }}</span>
+                      </button>
+                    </div>
+
+                    <!-- editing, in the same voice as the statement itself -->
+                    <div style="max-height:{{ it.editH }};visibility:{{ it.editV }};overflow:hidden">
+                      <div style="min-height:0;overflow:hidden">
+                        <div style="padding:16px 0 0">
+                          <textarea rows="2" value="{{ it.draft }}" onChange="{{ it.onDraft }}" onFocus="{{ onFocus }}" onBlur="{{ onBlur }}" style="width:100%;border:0;outline:none;resize:none;background:transparent;padding:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-leading-journal);color:var(--a-ink);caret-color:var(--a-caret)"></textarea>
+                          <div style="display:flex;gap:8px;margin-top:10px">
+                            <button class="btn" onClick="{{ it.onSaveEdit }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-primary-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);letter-spacing:var(--a-tr-action);background:var(--a-action);color:var(--a-action-ink);box-shadow:var(--shadow-sm);opacity:{{ it.saveOpacity }};pointer-events:{{ it.saveEvents }};transition:opacity var(--a-move-element) var(--a-ease-fade)" style-hover="background:var(--a-action-pressed)">Save change</button>
+                            <button class="btn btn-ghost" onClick="{{ it.onCancelEdit }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet)">Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style="display:{{ it.actionsDisplay }};gap:6px;padding-top:10px">
+                      <button class="btn btn-ghost" onClick="{{ it.onEdit }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);margin-left:calc(-1 * var(--a-pad-ghost-x));min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);color:var(--a-surface-voice-ink)">Change</button>
+                      <button class="btn btn-ghost" onClick="{{ it.onRemove }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet)">Remove</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+
+          <!-- quiet confirmation after a removal -->
+          <div style="max-height:{{ removedH }};visibility:{{ removedV }};overflow:hidden">
+            <div style="min-height:0;overflow:hidden">
+              <p class="aura-place" style="margin:0;padding:var(--a-space-sm) 0 4px;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support)">I’ll stop using this for suggestions.</p>
+            </div>
+          </div>
+
+          <!-- add something -->
+          <div style="padding-top:22px">
+            <div style="display:{{ addPromptDisplay }}">
+              <button onClick="{{ onAdd }}" style="border:0;background:transparent;padding:var(--a-pad-control-y) 0;margin:0;min-height:var(--a-target);cursor:pointer;font:inherit;color:var(--a-surface-voice-ink)">
+                <span style="display:inline-block;padding-bottom:3px;border-bottom:1px solid var(--a-underline-threshold);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action)">+ Tell Aura something</span>
+              </button>
+            </div>
+
+            <div style="max-height:{{ addH }};visibility:{{ addV }};overflow:hidden">
+              <div style="min-height:0;overflow:hidden">
+                <div class="aura-place" style="padding:8px 0 0">
+                  <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-statement);line-height:var(--a-lh-statement);letter-spacing:var(--a-tr-statement);color:var(--a-ink);text-wrap:pretty">What would you like me to remember?</p>
+
+                  <div style="display:{{ addChoiceDisplay }};flex-wrap:wrap;gap:8px;padding-top:18px">
+                    <button class="btn" onClick="{{ onWrite }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-primary-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);letter-spacing:var(--a-tr-action);background:var(--a-action);color:var(--a-action-ink);box-shadow:var(--shadow-sm)" style-hover="background:var(--a-action-pressed)">Write</button>
+                    <button class="btn" onClick="{{ onVoice }}" style="display:flex;align-items:center;gap:9px;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-secondary-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);background:transparent;border:1px solid var(--a-action-edge);color:var(--a-surface-voice-ink)" style-hover="background:var(--a-action-wash)"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--a-action)"></span>Speak</button>
+                    <button class="btn btn-ghost" onClick="{{ onCancelAdd }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet)">Not now</button>
+                  </div>
+
+                  <div style="display:{{ composeDisplay }};flex-direction:column;padding-top:16px">
+                    <textarea rows="3" placeholder="In your own words." value="{{ draft }}" onChange="{{ onDraft }}" onFocus="{{ onFocus }}" onBlur="{{ onBlur }}" style="width:100%;border:0;outline:none;resize:none;background:transparent;padding:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-leading-journal);color:var(--a-ink);caret-color:var(--a-caret)"></textarea>
+                    <div style="display:flex;gap:8px;margin-top:12px">
+                      <button class="btn" onClick="{{ onKeepNew }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-primary-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);letter-spacing:var(--a-tr-action);background:var(--a-action);color:var(--a-action-ink);box-shadow:var(--shadow-sm);opacity:{{ keepOpacity }};pointer-events:{{ keepEvents }};transition:opacity var(--a-move-element) var(--a-ease-fade)" style-hover="background:var(--a-action-pressed)">Keep this</button>
+                      <button class="btn btn-ghost" onClick="{{ onCancelAdd }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet)">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- everything below is supporting: one separation, then it recedes -->
+        <div style="margin-top:var(--a-space-2xl);padding-top:28px;border-top:1px solid var(--a-rule)">
+          <p style="margin:0 0 2px;font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">Recently suggested</p>
+          <div style="display:flex;flex-direction:column">
+            <sc-for list="{{ suggested }}" as="sg" hint-placeholder-count="2">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:11px 0">
+                <p style="margin:0;font-size:var(--a-type-body);line-height:1.5;color:var(--a-ink-support)">{{ sg.text }}</p>
+                <span style="flex:none;font-size:var(--a-type-label);color:var(--a-ink-quiet)">{{ sg.when }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- an illustration of where these go, not a second feed -->
+        <div style="margin-top:34px">
+          <p style="margin:0 0 var(--a-space-sm);font-size:13px;font-weight:var(--a-weight-body);line-height:1.55;color:var(--a-ink-quiet)">An example of how one of these can come back to you in Reflect.</p>
+          <button class="btn btn-ghost" onClick="{{ onSeeReflect }}" style="display:{{ seeReflectDisplay }};border-radius:0;padding:0 0 var(--a-space-sm);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);background:transparent;border:0;color:var(--a-surface-voice-ink)"><span style="display:inline-block;padding-bottom:3px;border-bottom:1px solid var(--a-underline-threshold)">See it there</span></button>
+          <div style="margin-left:var(--a-depth-inset);padding:20px 20px 18px;border-radius:var(--radius-lg);background:color-mix(in srgb, var(--color-accent-2-200) 34%, transparent);max-height:{{ sugH }};visibility:{{ sugV }};overflow:hidden;opacity:{{ sugOpacity }};transition:opacity var(--a-move-screen) var(--a-ease-fade)">
+            <p style="margin:0 0 var(--a-space-xs);font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-surface-offer-ink)">Something you mentioned before</p>
+            <p style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-lh-said);color:var(--a-surface-offer-ink);text-wrap:pretty">{{ offerLine }}</p>
+            <p style="margin:var(--a-space-xs) 0 0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:color-mix(in srgb, var(--a-surface-offer-ink) 78%, transparent)">Only if you feel like it.</p>
+
+            <div style="max-height:{{ whyH }};visibility:{{ whyV }};overflow:hidden">
+              <div style="min-height:0;overflow:hidden">
+                <p class="aura-place" style="margin:0;padding:var(--a-space-sm) 0 0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-surface-offer-ink);text-wrap:pretty">{{ whyText }}</p>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:var(--a-space-2xs);margin:var(--a-space-sm) 0 0 calc(-1 * var(--a-pad-ghost-x))">
+              <button class="btn btn-ghost" onClick="{{ onTry }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);color:var(--a-surface-offer-ink)">I might</button>
+              <button class="btn btn-ghost" onClick="{{ onNotNow }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:color-mix(in srgb, var(--a-surface-offer-ink) 78%, transparent)">Not now</button>
+              <button class="btn btn-ghost" onClick="{{ onWhy }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:color-mix(in srgb, var(--a-surface-offer-ink) 78%, transparent)">{{ whyLabel }}</button>
+            </div>
+          </div>
+          <div style="margin-left:var(--a-depth-inset);max-height:{{ goneH }};visibility:{{ goneV }};overflow:hidden">
+            <div style="min-height:0;overflow:hidden">
+              <p class="aura-place" style="margin:0;padding:2px 0 6px;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support)">Nothing else here for now.</p>
+            </div>
+          </div>
+          <div style="margin-left:var(--a-depth-inset);display:{{ againDisplay }};padding-top:6px">
+            <button class="btn btn-ghost" onClick="{{ onAgain }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);margin-left:calc(-1 * var(--a-pad-ghost-x));min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet)">Show the example again</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- voice: the same interaction as Express -->
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 42px 60px;text-align:center;background:color-mix(in srgb, var(--a-ground) 92%, transparent);opacity:{{ voiceOpacity }};visibility:{{ voiceVis }};pointer-events:{{ voiceEvents }};transition:opacity var(--a-move-section) var(--a-ease-fade), visibility var(--a-move-section)">
+      <div style="position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center">
+        <span style="position:absolute;inset:0;border-radius:50%;background:color-mix(in srgb, var(--a-ambient-blue) 32%, transparent);animation:auraListen 2.6s ease-out infinite"></span>
+        <span style="position:absolute;inset:0;border-radius:50%;background:color-mix(in srgb, var(--a-ambient-blue) 32%, transparent);animation:auraListen 2.6s ease-out infinite 1.3s"></span>
+        <span style="position:relative;width:16px;height:16px;border-radius:50%;background:var(--a-action)"></span>
+      </div>
+      <p style="margin:28px 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-said);line-height:var(--a-lh-said);color:var(--a-ink-said);text-wrap:pretty">{{ voiceLine }}</p>
+      <p style="margin:var(--a-space-xs) 0 0;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support);max-width:250px;text-wrap:pretty">You can fix the words afterwards.</p>
+      <div style="display:flex;flex-direction:column;gap:var(--a-space-2xs);margin-top:34px;width:100%;max-width:230px">
+        <button class="btn" onClick="{{ onStopVoice }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-primary-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);letter-spacing:var(--a-tr-action);background:var(--a-action);color:var(--a-action-ink);box-shadow:var(--shadow-sm)" style-hover="background:var(--a-action-pressed)">Done speaking</button>
+        <button class="btn btn-ghost" onClick="{{ onCancelVoice }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);min-height:var(--a-target);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet)">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</x-import>
+<p style="margin:0;font:400 12px/1.5 Figtree,system-ui,sans-serif;color:rgba(35,33,31,.68)">Sample content — screen 6. Tap a statement to open it.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:470,&quot;height&quot;:980},&quot;ambientForms&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Surface&quot;}}">
+const DICTATED = "Cooking on a Sunday afternoon with nobody around. It's the one thing where I don't think about anything else.";
+
+class Component extends DCLogic {
+  state = {
+    open: null, editing: null, editDraft: '',
+    add: 'idle', draft: '', focused: false, voice: 'listening',
+    removed: false, why: false, suggestion: 'here',
+  };
+
+  // the store's script may not have run at first render; attach as soon as it has
+  componentDidMount() { this.attachStore(); }
+  attachStore() {
+    const S = window.AuraStore;
+    if (S) { this.unsub = S.subscribe(() => this.forceUpdate()); this.forceUpdate(); }
+    else this.storeTimer = setTimeout(() => this.attachStore(), 16);
+  }
+  componentWillUnmount() { clearTimeout(this.storeTimer); if (this.unsub) this.unsub(); clearTimeout(this.vt); clearTimeout(this.rt); }
+
+  patch(id, fields) { window.AuraStore.patchMemory(id, fields); }
+
+  renderVals() {
+    const s = this.state;
+    const S = window.AuraStore;
+    const store = S ? S.get() : { entries: [], memories: [], threads: [{ id: 't1', layers: [] }], suggested: [] };
+    // only a remembered item the person allowed can produce an offer
+    const offer = S ? (S.offerable()[0] || null) : null;
+    // slight variation in placement and scale so the collection reads as gathered, not tabulated
+    const insets = ['0px', '16px', '6px'];
+    // three sizes around the Said tier — gathered, not tabulated. No size encodes importance.
+    const sizes = ['var(--a-type-said)', 'calc(var(--a-type-said) + 2px)', 'calc(var(--a-type-said) - 1px)'];
+
+    const items = store.memories.map((it, i) => {
+      const open = s.open === it.id;
+      const editing = s.editing === it.id;
+      return {
+        text: it.text,
+        origin: it.origin,
+        inset: insets[i % 3],
+        size: sizes[i % 3],
+        // a statement Aura may not use for suggestions recedes — quieter, never crossed out
+        ink: it.use ? 'var(--a-ink-said)' : 'var(--a-ink-support)',
+        openH: open ? 'none' : '0px',
+        openV: open ? 'visible' : 'hidden',
+        editH: editing ? 'none' : '0px',
+        editV: editing ? 'visible' : 'hidden',
+        actionsDisplay: editing ? 'none' : 'flex',
+        draft: editing ? s.editDraft : '',
+        rememberMark: it.remember ? '✓' : '—',
+        rememberInk: it.remember ? 'var(--a-surface-offer-ink)' : 'color-mix(in srgb, var(--a-surface-offer-ink) 62%, transparent)',
+        useMark: it.use ? '✓' : '—',
+        useInk: it.use ? 'var(--a-surface-offer-ink)' : 'color-mix(in srgb, var(--a-surface-offer-ink) 62%, transparent)',
+        onOpen: () => this.setState((p) => ({ open: p.open === it.id ? null : it.id, editing: null, removed: false })),
+        // the two controls are independent: remembering is not permission to suggest
+        onToggleRemember: () => this.patch(it.id, { remember: !it.remember }),
+        onToggleUse: () => this.patch(it.id, { use: !it.use }),
+        saveOpacity: s.editDraft.trim() ? 1 : 0.4,
+        saveEvents: s.editDraft.trim() ? 'auto' : 'none',
+        onEdit: () => this.setState({ editing: it.id, editDraft: it.text, focused: true }),
+        onDraft: (e) => this.setState({ editDraft: e.target.value }),
+        onSaveEdit: () => {
+          const v = this.state.editDraft.trim();
+          if (v) window.AuraStore.editMemory(it.id, v);
+          this.setState({ editing: null, focused: false });
+        },
+        onCancelEdit: () => this.setState({ editing: null, focused: false }),
+        onRemove: () => {
+          window.AuraStore.removeMemory(it.id);
+          this.setState({ open: null, editing: null, removed: true });
+          clearTimeout(this.rt);
+          this.rt = setTimeout(() => this.setState({ removed: false }), 4200);
+        },
+      };
+    });
+
+    const adding = s.add !== 'idle' && s.add !== 'voice';
+
+    return {
+      deviceW: 390,
+      deviceH: 844,
+      items,
+      ambientOn: (this.props.ambientForms ?? true) ? 1 : 0,
+      keyboardUp: s.focused,
+      draft: s.draft,
+
+      removedH: s.removed ? 'none' : '0px',
+      removedV: s.removed ? 'visible' : 'hidden',
+
+      addPromptDisplay: s.add === 'idle' ? 'block' : 'none',
+      addH: adding ? 'none' : '0px',
+      addV: adding ? 'visible' : 'hidden',
+      addChoiceDisplay: s.add === 'choose' ? 'flex' : 'none',
+      composeDisplay: s.add === 'compose' ? 'flex' : 'none',
+      keepOpacity: s.draft.trim() ? 1 : 0.4,
+      keepEvents: s.draft.trim() ? 'auto' : 'none',
+
+      whyH: s.why ? 'none' : '0px',
+      whyV: s.why ? 'visible' : 'hidden',
+      whyLabel: s.why ? 'Close' : 'Why this?',
+
+      suggested: store.suggested,
+      // the explanation quotes the memory itself and its own provenance
+      whyText: offer
+        ? '“' + offer.text + '” — you told me that, and chose to let me use it for suggestions. ' + offer.origin
+        : '',
+      seeReflectDisplay: offer ? 'inline-block' : 'none',
+      onSeeReflect: () => { if (this.props.onSeeReflect) this.props.onSeeReflect(); },
+      // the offer is a memory's own line, so a suggestion always has a source
+      offerLine: offer
+        ? 'You said ' + offer.text.charAt(0).toLowerCase() + offer.text.slice(1).replace(/\.$/, '') + '. ' + offer.offer
+        : '',
+
+      // the suggestion settles away; Aura never learns what the person did with it
+      sugH: s.suggestion === 'here' && offer ? 'none' : '0px',
+      sugV: s.suggestion === 'here' && offer ? 'visible' : 'hidden',
+      sugOpacity: s.suggestion === 'here' && offer ? 1 : 0,
+      goneH: s.suggestion === 'here' && offer ? '0px' : 'none',
+      goneV: s.suggestion === 'here' && offer ? 'hidden' : 'visible',
+      // with nothing allowed for suggestions there is nothing to show again
+      againDisplay: s.suggestion === 'here' || !offer ? 'none' : 'block',
+
+      voiceOpacity: s.add === 'voice' ? 1 : 0,
+      voiceVis: s.add === 'voice' ? 'visible' : 'hidden',
+      voiceEvents: s.add === 'voice' ? 'auto' : 'none',
+      voiceLine: s.voice === 'transcribing' ? 'Writing it down…' : 'Say it however it comes out.',
+
+      backLabel: this.props.backLabel ?? '← Aura',
+      onBack: () => {
+        const s = this.state;
+        if (s.open === null && s.editing === null && s.add === 'idle' && !s.why && this.props.onExit) this.props.onExit();
+        else this.setState({ open: null, editing: null, add: 'idle', why: false });
+      },
+      onFocus: () => this.setState({ focused: true }),
+      onBlur: () => this.setState({ focused: false }),
+
+      onAdd: () => this.setState({ add: 'choose', removed: false }),
+      onWrite: () => this.setState({ add: 'compose', focused: true }),
+      onCancelAdd: () => this.setState({ add: 'idle', draft: '', focused: false }),
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+      onKeepNew: () => {
+        window.AuraStore.addMemory(this.state.draft);
+        this.setState({ add: 'idle', draft: '', focused: false });
+      },
+
+      onVoice: () => this.setState({ add: 'voice', voice: 'listening', focused: false }),
+      onStopVoice: () => {
+        this.setState({ voice: 'transcribing' });
+        clearTimeout(this.vt);
+        this.vt = setTimeout(() => this.setState((p) => ({
+          add: 'compose', focused: true,
+          draft: (p.draft ? p.draft.replace(/\s*$/, '') + ' ' : '') + DICTATED,
+        })), 1700);
+      },
+      onCancelVoice: () => this.setState({ add: 'choose', voice: 'listening' }),
+
+      onWhy: () => this.setState((p) => ({ why: !p.why })),
+      onTry: () => {
+        if (offer) window.AuraStore.recordSuggestion(offer.id);
+        this.setState({ suggestion: 'settled', why: false });
+      },
+      onNotNow: () => this.setState({ suggestion: 'settled', why: false }),
+      onAgain: () => this.setState({ suggestion: 'here', why: false }),
+    };
+  }
+}
+</script>
+</body>
+</html>

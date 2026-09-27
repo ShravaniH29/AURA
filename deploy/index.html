@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/styles.css">
+<script src="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/_ds_bundle.js"></script>
+<link rel="stylesheet" href="aura-theme.css">
+<script src="aura-store.js"></script>
+<style>
+  body { margin: 0; background: var(--a-ground-outside); -webkit-font-smoothing: antialiased; }
+  a { color: var(--a-action); }
+  a:hover { color: var(--a-action-pressed); }
+  /* one shell-level settle, on the existing element tier */
+  @keyframes protoArea { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .proto-area { animation: protoArea var(--a-move-element) var(--a-ease-move) both; }
+  @keyframes protoDrift { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-9px,-13px,0) scale(1.03); } }
+  @keyframes protoBreath { 0%,100% { opacity: .16; transform: scale(1); } 50% { opacity: .46; transform: scale(1.5); } }
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#f3ebdd"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#f3ebdd"></rect><circle cx="600" cy="330" r="86" fill="none" stroke="#5d7890" stroke-width="3" opacity="0.38"></circle><circle cx="600" cy="330" r="21" fill="#5d7890"></circle><text x="600" y="520" text-anchor="middle" font-family="Georgia,serif" font-size="88" fill="#23211f" letter-spacing="14">aura</text></svg></template>
+
+<div style="position:relative">
+
+  <!-- Aura: the place the back-links return to -->
+  <div class="proto-area" style="display:{{ homeDisplay }};position:relative;min-height:100vh;background:var(--a-ground);color:var(--a-ink);font-family:Figtree,system-ui,sans-serif;overflow:hidden">
+
+    <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+      <div style="position:absolute;left:-30%;top:-24%;width:110%;height:60%;background:radial-gradient(52% 56% at 46% 50%, color-mix(in srgb, var(--a-ambient-blue) 18%, transparent) 0%, color-mix(in srgb, var(--a-ambient-blue) 7%, transparent) 46%, transparent 78%);animation:protoDrift 38s ease-in-out infinite"></div>
+      <div style="position:absolute;right:-26%;bottom:-20%;width:92%;height:52%;background:radial-gradient(54% 58% at 50% 50%, color-mix(in srgb, var(--a-ambient-clay) 9%, transparent) 0%, transparent 74%);animation:protoDrift 52s ease-in-out infinite"></div>
+    </div>
+    <div style="position:absolute;inset:0;pointer-events:none;opacity:var(--a-grain-opacity);mix-blend-mode:var(--a-grain-blend);background-image:var(--a-grain)"></div>
+
+    <div style="position:relative;max-width:1080px;margin:0 auto;padding:var(--a-pad-top) var(--a-space-lg) 96px">
+
+      <div style="display:flex;align-items:center;gap:11px">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--a-action);animation:protoBreath 4.6s ease-in-out infinite"></span>
+        <span style="font-family:var(--font-heading);font-weight:400;font-size:18px;letter-spacing:.18em;color:var(--a-surface-voice-ink)">aura</span>
+      </div>
+
+      <h1 style="margin:64px 0 0;max-width:19ch;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:clamp(36px,5.4vw,58px);line-height:1.08;letter-spacing:-.024em;text-wrap:balance">Somewhere to put it.</h1>
+      <p style="margin:var(--a-space-md) 0 0;max-width:52ch;font-size:16.5px;line-height:1.78;color:var(--a-ink-support);text-wrap:pretty">Arrive, put something down, look back at the week, find what you kept, follow a thought across months, and decide what Aura is allowed to remember.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:var(--a-space-md);margin-top:var(--a-space-xl)">
+        <sc-for list="{{ doors }}" as="door" hint-placeholder-count="6">
+          <button onClick="{{ door.onOpen }}" style="display:flex;flex-direction:column;justify-content:flex-start;width:100%;text-align:left;border:0;cursor:pointer;font:inherit;padding:26px 26px 24px;border-radius:var(--radius-lg);background:var(--a-surface-paper);transition:background var(--a-move-touch) var(--a-ease-fade)" style-hover="background:var(--a-surface-paper-wash)">
+            <p style="margin:0;font-size:var(--a-type-label);font-weight:var(--a-weight-label);letter-spacing:var(--a-tr-label);text-transform:uppercase;color:var(--a-ink-quiet)">{{ door.chapter }}</p>
+            <p style="margin:14px 0 0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:23px;line-height:1.3;color:var(--a-ink)">{{ door.title }}</p>
+            <p style="margin:10px 0 0;font-size:14.5px;line-height:1.6;color:var(--a-ink-support)">{{ door.note }}</p>
+          </button>
+        </sc-for>
+      </div>
+
+      <p style="margin:var(--a-space-xl) 0 0;max-width:56ch;font-size:14.5px;line-height:1.7;color:var(--a-ink-quiet);text-wrap:pretty">Sample content throughout. Nothing is stored and nothing leaves the page.</p>
+
+    </div>
+  </div>
+
+  <!-- All six stay mounted so state survives moving between them. -->
+  <!-- Mounted here so the device frame is embedded with the shell: the children
+       reference it from global scope, and a nested x-import is not reachable by
+       the bundler. Importing the same file twice fetches and evaluates once. -->
+  <div style="position:absolute;width:0;height:0;overflow:hidden;pointer-events:none" aria-hidden="true">
+    <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="1" height="1" hint-size="1px,1px"></x-import>
+  </div>
+
+  <div class="{{ areaClass }}" style="display:{{ d1 }}"><dc-import name="Aura - 01 Welcome" on-enter="{{ toExpress }}" on-exit="{{ toHome }}" back-label="{{ backLabel }}" hint-size="100%,900px"></dc-import></div>
+  <div class="{{ areaClass }}" style="display:{{ d2 }}"><dc-import name="Aura - 02 Journal" on-exit="{{ toHome }}" back-label="{{ backLabel }}" on-see-kept="{{ toRecord }}" hint-size="100%,900px"></dc-import></div>
+  <div class="{{ areaClass }}" style="display:{{ d3 }}"><dc-import name="Aura - 03 Reflect" on-exit="{{ toHome }}" back-label="{{ backLabel }}" on-source="{{ toRemember }}" on-open-entry="{{ toEntry }}" hint-size="100%,900px"></dc-import></div>
+  <div class="{{ areaClass }}" style="display:{{ d4 }}"><dc-import name="Aura - 04 Record" on-exit="{{ toHome }}" back-label="{{ backLabel }}" on-open-thread="{{ toThread }}" open-entry="{{ openEntry }}" hint-size="100%,900px"></dc-import></div>
+  <div class="{{ areaClass }}" style="display:{{ d5 }}"><dc-import name="Aura - 05 Over time" on-exit="{{ toHome }}" back-label="{{ backLabel }}" on-open-entry="{{ toEntry }}" hint-size="100%,900px"></dc-import></div>
+  <div class="{{ areaClass }}" style="display:{{ d6 }}"><dc-import name="Aura - 06 Personal" on-exit="{{ toHome }}" back-label="{{ backLabel }}" on-see-reflect="{{ toReflect }}" hint-size="100%,900px"></dc-import></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:900}}">
+const NAMES = { home: 'Aura', s1: 'Today', s2: 'Express', s3: 'This week', s4: 'Record', s5: 'Over time', s6: 'What I remember' };
+
+class Component extends DCLogic {
+  state = { at: 'home', openEntry: null, stack: [] };
+
+  top() { if (typeof window !== 'undefined') window.scrollTo(0, 0); }
+
+  // entering from the hub starts a fresh trail
+  go(at) {
+    this.setState({ at, openEntry: null, stack: [] });
+    this.top();
+  }
+
+  // a lateral link remembers where it left from
+  jump(at, entry) {
+    this.setState((s) => ({ at, openEntry: entry || null, stack: [...s.stack, s.at] }));
+    this.top();
+  }
+
+  // exit walks back down the trail; the hub is only the last resort
+  exit() {
+    this.setState((s) => {
+      const stack = s.stack.slice();
+      const back = stack.pop();
+      return { at: back || 'home', openEntry: null, stack };
+    });
+    this.top();
+  }
+
+  renderVals() {
+    const at = this.state.at;
+    const show = (k) => (at === k ? 'block' : 'none');
+
+    const doors = [
+      { key: 's1', chapter: 'Today', title: 'How are you today?', note: 'The way in. A held pause, then one question.' },
+      { key: 's2', chapter: 'Express', title: 'You can start anywhere.', note: 'Write or speak. A prompt you can skip. Keep it when you’re ready.' },
+      { key: 's3', chapter: 'This week', title: 'How have you been lately?', note: 'Seven days on a quiet thread. A day you missed says so in words.' },
+      { key: 's4', chapter: 'Record', title: 'Things you’ve left here.', note: 'What you chose to keep, in your own words. Then, and now.' },
+      { key: 's5', chapter: 'Over time', title: 'The internship.', note: 'A thought you keep returning to, opened one layer at a time.' },
+      { key: 's6', chapter: 'What I remember', title: 'Things you’ve shared with me.', note: 'Remembering something and being allowed to use it stay separate.' },
+    ].map((d) => ({ ...d, onOpen: () => this.go(d.key) }));
+
+    return {
+      doors,
+      openEntry: this.state.openEntry,
+      areaClass: 'proto-area',
+      // names the place this back-link actually returns to
+      backLabel: this.state.stack.length
+        ? '← ' + (NAMES[this.state.stack[this.state.stack.length - 1]] || 'Aura')
+        : null,
+      homeDisplay: show('home'),
+      d1: show('s1'), d2: show('s2'), d3: show('s3'),
+      d4: show('s4'), d5: show('s5'), d6: show('s6'),
+      toHome: () => this.exit(),
+      toExpress: () => this.jump('s2'),
+      toRecord: () => this.jump('s4'),
+      toReflect: () => this.jump('s3'),
+      toRemember: () => this.jump('s6'),
+      toThread: () => this.jump('s5'),
+      // ask Record to open that entry, not merely show its list
+      toEntry: (id) => this.jump('s4', id),
+    };
+  }
+}
+</script>
+</body>
+</html>

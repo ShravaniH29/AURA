@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/styles.css">
+<script src="_ds/organic-645cfc6e-c5a4-4d7c-a785-31233e323386/_ds_bundle.js"></script>
+<link rel="stylesheet" href="aura-theme.css">
+<script src="aura-store.js"></script>
+<style>
+  body { margin: 0; background: var(--a-ground-outside); }
+  a { color: var(--a-action); }
+  a:hover { color: var(--a-action-pressed); }
+  @keyframes auraDrift { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-9px,-13px,0) scale(1.03); } }
+  @keyframes auraDrift2 { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(11px,9px,0) scale(0.975); } }
+  @keyframes auraBreath { 0%,100% { opacity: .16; transform: scale(1); } 50% { opacity: .46; transform: scale(1.5); } }
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#f3ebdd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#f3ebdd"></rect><circle cx="50" cy="38" r="14" fill="none" stroke="#5d7890" stroke-width="1" opacity="0.4"></circle><circle cx="50" cy="38" r="3.4" fill="#5d7890"></circle><text x="50" y="70" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#23211f" letter-spacing="2">aura</text></svg></template>
+
+<div class="aura-stage" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px 0;background:var(--a-ground-outside)">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ deviceW }}" height="{{ deviceH }}" hint-size="390px,844px">
+
+  <div data-a-screen="today" style="position:relative;height:100%;overflow:hidden;background:var(--a-ground)">
+
+    <!-- layered ground: nested organic forms that expand as you enter -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:{{ ambientOn }}">
+      <div style="position:absolute;inset:0;transform:scale({{ layerScale }});transform-origin:38% 34%;transition:transform 2.6s cubic-bezier(.2,.75,.25,1)">
+        <div style="position:absolute;left:-40%;top:-30%;width:158%;aspect-ratio:1.12;border-radius:50%;background:radial-gradient(closest-side, color-mix(in srgb, var(--a-ambient-blue) 46%, transparent), transparent 73%);animation:auraDrift 28s ease-in-out infinite"></div>
+        <div style="position:absolute;left:-16%;top:-11%;width:116%;aspect-ratio:1.04;border-radius:50%;border:1px solid color-mix(in srgb, var(--a-ambient-blue) 22%, transparent);animation:auraDrift2 36s ease-in-out infinite"></div>
+        <div style="position:absolute;left:3%;top:4%;width:84%;aspect-ratio:1;border-radius:50%;border:1px solid color-mix(in srgb, var(--a-ambient-sage) 15%, transparent);animation:auraDrift 44s ease-in-out infinite"></div>
+        <div style="position:absolute;right:-34%;bottom:-20%;width:100%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side, color-mix(in srgb, var(--a-ambient-clay) 22%, transparent), transparent 72%);animation:auraDrift2 32s ease-in-out infinite"></div>
+      </div>
+    </div>
+
+    <!-- paper grain -->
+    <div style="position:absolute;inset:0;pointer-events:none;opacity:.45;mix-blend-mode:var(--a-grain-blend);background-image:var(--a-grain)"></div>
+
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;padding:66px 32px var(--a-pad-bottom)">
+
+      <div style="display:flex;align-items:center;gap:9px;opacity:{{ markOpacity }};transition:opacity 1.8s ease">
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--a-action);opacity:.62"></span>
+        <span style="font-family:var(--font-heading);font-weight:400;font-size:16.5px;letter-spacing:.17em;color:var(--a-surface-voice-ink)">aura</span>
+      </div>
+
+      <!-- the pause -->
+      <div style="position:absolute;left:0;right:0;top:46%;display:flex;justify-content:center;opacity:{{ breathOpacity }};transition:opacity 1.2s ease;pointer-events:none">
+        <span style="width:10px;height:10px;border-radius:50%;background:var(--a-action);animation:auraBreath 3.6s ease-in-out infinite"></span>
+      </div>
+
+      <!-- the question -->
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;opacity:{{ stageOpacity }};transition:opacity 1.5s ease">
+        <div style="opacity:{{ greetingOpacity }};transform:translateY({{ greetingShift }});transition:opacity 1.7s ease, transform 1.7s cubic-bezier(.22,.8,.28,1)">
+          <h1 style="margin:0;font-family:var(--font-heading);font-weight:var(--a-weight-said);font-size:var(--a-type-display);line-height:var(--a-lh-display);letter-spacing:var(--a-tr-display);color:var(--a-ink);text-wrap:pretty">How are you<br>today?</h1>
+          <p style="margin:var(--a-space-md) 0 0;max-width:250px;font-size:var(--a-type-body);line-height:var(--a-lh-body);color:var(--a-ink-support);text-wrap:pretty">{{ subline }}</p>
+        </div>
+      </div>
+
+      <!-- the way in -->
+      <div style="display:flex;flex-direction:column;align-items:stretch;gap:var(--a-space-2xs);opacity:{{ actionsOpacity }};transform:translateY({{ actionsShift }});transition:opacity 1.5s ease .5s, transform 1.5s cubic-bezier(.22,.8,.28,1) .5s;pointer-events:{{ actionsEvents }}">
+        <button class="btn" onClick="{{ onEnter }}" style="border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-primary-x);font-size:var(--a-type-action);font-weight:var(--a-weight-action);line-height:var(--a-lh-action);letter-spacing:var(--a-tr-action);background:var(--a-action);color:var(--a-action-ink);box-shadow:var(--shadow-sm);min-height:var(--a-target)" style-hover="background:var(--a-action-pressed)">Put something down</button>
+        <button class="btn btn-ghost" onClick="{{ onRest }}" style="white-space:nowrap;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">Not right now</button>
+      </div>
+
+      <!-- staying a moment -->
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--a-space-md);padding:0 46px;text-align:center;opacity:{{ restingOpacity }};pointer-events:{{ restingEvents }};transition:opacity 1.4s ease">
+        <span style="width:9px;height:9px;border-radius:50%;background:var(--a-action);animation:auraBreath 4.8s ease-in-out infinite"></span>
+        <p style="margin:0;font-family:var(--font-heading);font-weight:300;font-style:italic;font-size:var(--a-type-said);line-height:var(--a-lh-said);color:var(--a-ink-said);text-wrap:pretty">It’s here whenever you want it.</p>
+        <button class="btn btn-ghost" onClick="{{ onReturn }}" style="white-space:nowrap;border-radius:999px;padding:var(--a-pad-control-y) var(--a-pad-ghost-x);font-size:var(--a-type-action);font-weight:var(--a-weight-body);line-height:var(--a-lh-action);color:var(--a-ink-quiet);min-height:var(--a-target)">{{ restingAction }}</button>
+      </div>
+
+    </div>
+  </div>
+
+</x-import>
+<p style="margin:0;font:400 12px/1.5 Figtree,system-ui,sans-serif;color:rgba(35,33,31,.68)">“Put something down” opens the journal — screen 2, not built yet.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:470,&quot;height&quot;:980},&quot;subline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;There’s no right answer. Say it however it comes.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Copy&quot;},&quot;heldMoment&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1600,&quot;min&quot;:0,&quot;max&quot;:3500,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Behaviour&quot;},&quot;ambientForms&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Surface&quot;}}">
+class Component extends DCLogic {
+  state = { phase: 'pause' };
+
+  componentDidMount() { this.schedule(); }
+  componentWillUnmount() { clearTimeout(this.t1); clearTimeout(this.t2); }
+
+  schedule() {
+    const hold = this.props.heldMoment ?? 1600;
+    clearTimeout(this.t1); clearTimeout(this.t2);
+    this.t1 = setTimeout(() => this.setState({ phase: 'arrive' }), hold);
+    this.t2 = setTimeout(() => this.setState({ phase: 'open' }), hold + 1300);
+  }
+
+  renderVals() {
+    const p = this.state.phase;
+    const pausing = p === 'pause';
+    const resting = p === 'resting';
+    const entering = p === 'entering';
+
+    return {
+      deviceW: 390,
+      deviceH: 844,
+      subline: this.props.subline ?? 'There’s no right answer. Say it however it comes.',
+
+      ambientOn: (this.props.ambientForms ?? true) ? 1 : 0,
+      layerScale: entering ? 1.35 : 1,
+
+      markOpacity: pausing || entering ? 0 : 1,
+      breathOpacity: pausing ? 1 : 0,
+      stageOpacity: resting || entering ? 0 : 1,
+      greetingOpacity: pausing ? 0 : 1,
+      greetingShift: pausing ? '16px' : '0px',
+
+      actionsOpacity: p === 'open' ? 1 : 0,
+      actionsShift: p === 'open' ? '0px' : '18px',
+      actionsEvents: p === 'open' ? 'auto' : 'none',
+
+      restingOpacity: resting ? 1 : 0,
+      restingEvents: resting ? 'auto' : 'none',
+
+      onEnter: () => {
+        this.setState({ phase: 'entering' });
+        // the layer expansion runs to its existing length, then hands off
+        this.t1 = setTimeout(() => {
+          if (this.props.onEnter) { this.props.onEnter(); this.setState({ phase: 'pause' }); this.schedule(); }
+          else { this.setState({ phase: 'pause' }); this.schedule(); }
+        }, 2600);
+      },
+      onRest: () => this.setState({ phase: 'resting' }),
+      restingAction: this.props.onExit ? (this.props.backLabel ?? '← Aura') : 'Back',
+      onReturn: () => {
+        if (this.props.onExit) this.props.onExit();
+        else this.setState({ phase: 'open' });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>
